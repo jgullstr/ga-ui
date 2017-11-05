@@ -1,7 +1,7 @@
 export default (type, reducer) => {
     return {
         type: type,
-        action: (payload) => ({
+        actionCreator: (payload) => ({
             type: type,
             payload: payload,
         }),

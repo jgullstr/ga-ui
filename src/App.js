@@ -7,31 +7,35 @@ import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import TextField from 'material-ui/TextField';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import {createStoreWithData, actions} from './store';
+import { createStoreWithData, actions } from './store';
 import GlobalConfiguration from './components/GlobalConfiguration/GlobalConfiguration';
 import genetic from './genetic';
 
-const store = createStoreWithData({
+const defaultGlobalConfig = {
   global: {
     bitSize: 18,
     function: 0,
     population: 0,
     evaluator: 0,
-    initiator: 0,
+    initializer: 0,
   },
   functions: [
     {
       name: 'Square',
-      fn: x => x**2,
-    }
+      fn: x => Math.pow(x,2),
+    },
+    {
+      name: 'Cube',
+      fn: x => Math.pow(x,3),
+    },
   ],
   instances: [],
   populations: [],
   library: genetic,
-});
-console.log(store.getState());
+};
+
+const store = createStoreWithData(defaultGlobalConfig);
 
 class App extends Component {
   render() {

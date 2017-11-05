@@ -3,34 +3,40 @@ import { connect } from 'react-redux';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import Slider from 'material-ui/Slider';
-
+import { bindActionCreators } from 'redux';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
-const RadioOptionField = (props) => {
+import { actionCreator } from '../../store/actions/globalConfigSet';
+
+const dispatchSetValue = (dispatcher, storeKey) => (event, key, value) => {
+  return dispatcher({[storeKey]: value});
+}
+
+const RadioOptionField = ({name, value, options, onChange}) => {
   return (
-  <div>
-    <RadioButtonGroup>
-      {props.options.map((item, value) => 
-        <RadioButton
-          value={value}
-          label={item.name}
-          key={value}
-        />
-      )}
-    </RadioButtonGroup>
-  </div>
+    <div>
+      <RadioButtonGroup name={name} valueSelected={value} onChange={onChange}>
+        {options.map((item, value) => 
+          <RadioButton
+            value={value}
+            label={item.name}
+            key={value}
+          />
+        )}
+      </RadioButtonGroup>
+    </div>
   );
 }
 
-const SelectOptionField = (props) => {
+const SelectOptionField = ({name, label, value, options, onChange}) => {
   return (
-  <div>
-    <SelectField floatingLabelText={props.label}>        
-      {props.options.map((item, i) =>
-        <MenuItem value={i} primaryText={item.name} key={i}/>
-      )}
-    </SelectField>
-  </div>
+    <div>
+      <SelectField floatingLabelText={label} name={name} value={value} onChange={onChange}>
+        {options.map((item, i) =>
+          <MenuItem value={i} primaryText={item.name} key={i}/>
+        )}
+      </SelectField>
+    </div>
   );
 }
 
@@ -40,6 +46,7 @@ const GlobalConfigForm = (props) => {
     <div>
         <label>Bitsize:</label><br />
         <Slider
+          name="bitsize"
           min={1}
           max={32}
           step={1}
@@ -47,18 +54,26 @@ const GlobalConfigForm = (props) => {
         />
         <br />
         <label>Function:</label><br />
-        <SelectOptionField options={props.functions}/>
+        <SelectOptionField name="function" label="Function" options={props.functions} value={props.values.function} onChange={dispatchSetValue(props.setValue, 'function')}/>
         <br />
         <label>Evaluate:</label>
         <br />
-        <RadioOptionField options={props.library.evaluators}/>
+        <RadioOptionField name="evaluator" options={props.library.evaluators} value={props.values.evaluator}/>
         <label>Initialize:</label>
         <br />
-        <RadioOptionField options={props.library.initializers}/>
+        <RadioOptionField name="initiator" options={props.library.initializers} value={props.values.initializer}/>
       </div>
     );
 }
-const mapDispatchToProps = dispatch => ({});
-const mapStateToProps = (state) => ({values: state.global, functions: state.functions, library: state.library});
+
+const mapStateToProps = (state) => ({
+  values: state.global,
+  functions: state.functions,
+  library: state.library
+});
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({setValue: actionCreator}, dispatch);
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(GlobalConfigForm);
