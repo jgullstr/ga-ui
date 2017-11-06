@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 
 import 'typeface-roboto';
+import 'material-design-icons-iconfont';
 
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
@@ -16,6 +17,9 @@ import genetic from './genetic';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
+
+import IconButton from 'material-ui/IconButton';
+import FontIcon from 'material-ui/FontIcon';
 
 /**
  * Default, empty configuration.
@@ -71,10 +75,24 @@ const AppDrawer = (props) => {
   );
 }
 
+
+const ToggleMode = (props) => {
+  return (
+    <div>
+      <IconButton tooltip="Instance settings" iconClassName="material-icons">
+        settings
+      </IconButton>
+      <IconButton tooltip="Chart" iconClassName="material-icons">
+        show_chart
+      </IconButton>
+    </div>
+  );
+}
+
 const AppHeader = (props) => {
   return (
     <header className="App-header">
-      <AppBar title="Genetic algorithm evaluator"/>
+      <AppBar title="Genetic algorithm evaluator" iconElementRight={<ToggleMode />}/>
     </header>
   );
 }
