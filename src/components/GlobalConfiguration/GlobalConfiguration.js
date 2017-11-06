@@ -1,72 +1,48 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
-import Slider from 'material-ui/Slider';
 import { bindActionCreators } from 'redux';
-import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
 import { actionCreator } from '../../store/actions/globalConfigSet';
 
-const dispatchSetValue = (dispatcher, storeKey) => (event, key, value) => {
-  return dispatcher({[storeKey]: value});
-}
+import RadioOptionField from '../FormComponents/Fields/RadioOptionField';
+import SelectOptionField from '../FormComponents/Fields/SelectOptionField';
+import SliderField from '../FormComponents/Fields/SliderField';
 
-const RadioOptionField = ({name, value, options, onChange}) => {
+import RaisedButton from 'material-ui/RaisedButton';
+
+import Divider from 'material-ui/Divider';
+
+const GlobalConfigForm = ({locked, values, functions, library, setValue}) => {
+  const buttonArgs = locked ? {secondary: true, label: "Reset"} : {primary: true, label: "Initialize"};
   return (
     <div>
-      <RadioButtonGroup name={name} valueSelected={value} onChange={onChange}>
-        {options.map((item, value) => 
-          <RadioButton
-            value={value}
-            label={item.name}
-            key={value}
-          />
-        )}
-      </RadioButtonGroup>
-    </div>
-  );
-}
+        <p><i>The global configuration is common between all algorithm instances. <b>Changing these parameters will clear current progress.</b></i></p>
+        <SliderField label="Chromosome size" name="bitSize" min={1} max={32} step={1} value={values.bitSize} onChange={setValue} disabled={locked}/>
+        <span className="hint">Amount of bits for a single chromosome.</span><br /><br />
+        
+        <SelectOptionField name="function" label="Function" options={functions} value={values.function} onChange={setValue} disabled={locked}/>
+        <span className="hint">Main function to optimize.</span><br /><br /><br />
 
-const SelectOptionField = ({name, label, value, options, onChange}) => {
-  return (
-    <div>
-      <SelectField floatingLabelText={label} name={name} value={value} onChange={onChange}>
-        {options.map((item, i) =>
-          <MenuItem value={i} primaryText={item.name} key={i}/>
-        )}
-      </SelectField>
-    </div>
-  );
-}
+        <br />
+        <label>Evaluator:</label><br /><br />
+        <RadioOptionField name="evaluator" options={library.evaluators} value={values.evaluator} onChange={setValue} disabled={locked}/>
+        <br /><span className="hint">Function to determine fitness.</span><br /><br />
 
-const GlobalConfigForm = (props) => {
-  console.log(props)
-  return (
-    <div>
-        <label>Bitsize:</label><br />
-        <Slider
-          name="bitsize"
-          min={1}
-          max={32}
-          step={1}
-          value={props.values.bitSize}
-        />
+        <Divider />
+        
         <br />
-        <label>Function:</label><br />
-        <SelectOptionField name="function" label="Function" options={props.functions} value={props.values.function} onChange={dispatchSetValue(props.setValue, 'function')}/>
+        <label>Initialize:</label><br /><br />
+        <RadioOptionField name="initializer" options={library.initializers} value={values.initializer} onChange={setValue} disabled={locked}/>
+        <br /><span className="hint">How to initialize algorithm instances.</span>
         <br />
-        <label>Evaluate:</label>
         <br />
-        <RadioOptionField name="evaluator" options={props.library.evaluators} value={props.values.evaluator}/>
-        <label>Initialize:</label>
-        <br />
-        <RadioOptionField name="initiator" options={props.library.initializers} value={props.values.initializer}/>
+        <RaisedButton {...buttonArgs} fullWidth={true} />
       </div>
     );
 }
 
 const mapStateToProps = (state) => ({
+  locked: state.locked,
   values: state.global,
   functions: state.functions,
   library: state.library

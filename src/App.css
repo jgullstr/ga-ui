@@ -1,7 +1,16 @@
 .container {
 }
 
+.padded {
+    margin: 10px;
+}
+
 .content {
     max-width: 1000px;
-    margin: 20px auto;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.hint {
+    font-size: 70%;
 }
