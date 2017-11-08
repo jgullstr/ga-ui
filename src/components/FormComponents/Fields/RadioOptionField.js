@@ -6,11 +6,11 @@ const RadioOptionField = ({name, value, options, disabled, onChange}) => {
     return (
       <div className="radios">
         <RadioButtonGroup name={name} valueSelected={value} onChange={dispatchSetValue(onChange, name)}>
-          {options.map((item, value) => 
+          {options.map((item, i) => 
             <RadioButton
-              value={value}
-              label={item.name}
-              key={value}
+              value={i}
+              label={item}
+              key={i}
               disabled={disabled}
             />
           )}

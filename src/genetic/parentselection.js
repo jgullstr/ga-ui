@@ -37,3 +37,15 @@ export const rouletteWheel = population => {
     // Map random, fitness-proportionate values on the population.
     return population.map((c) => values[spin()]);
 };
+
+
+const parentSelectors = [
+    {
+        name: "Roulette Wheel Selection",
+        description: "Creates a new population with members randomly selected from input based on their fitness.",
+        fn: rouletteWheel,
+        params: []
+    }
+];
+
+export default parentSelectors;

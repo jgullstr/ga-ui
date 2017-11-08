@@ -121,3 +121,14 @@ export class bin32Codec {
         }, []);
     }
 };
+
+const codecs = [
+    {
+        name: "Real to binary",
+        description: "Maps range of real values into binary values.",
+        class: bin32Codec,
+        params: []
+    }
+];
+
+export default codecs;

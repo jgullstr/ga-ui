@@ -17,3 +17,21 @@ export const mutateRandom = bitSize => p => value => {
     }
     return value;
 }
+
+const mutators = [
+    {
+        name: "Random mutation",
+        description: "Flip each allele with a probability p.",
+        fn: mutateRandom,
+        params: [
+            {
+                name: "Probability",
+                description: "Probability for a single mutation.",
+                type: 'float',
+                range: [0,1]
+            }
+        ]
+    }
+];
+
+export default mutators;

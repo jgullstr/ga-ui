@@ -4,6 +4,9 @@
  * @returns {Population} evolved generation.
  */
 export const evolve = (selectParents) => (recombine) => (mutate) => (selectSurvivors) => (population) => {
+    // Time execution.
+    const initTime = performance.now();
+
     // Pass contextual data to each function for more complex use-cases.
     let context = {
       population: population
@@ -31,5 +34,11 @@ export const evolve = (selectParents) => (recombine) => (mutate) => (selectSurvi
     context.mutants = mutants;
 
     // Select survivors and return evolved population.
-    return selectSurvivors.call(context, mutants);
+    const result = selectSurvivors.call(context, mutants);
+
+    // Execution time is saved as a property on the evolved population.
+    const executionTime = performance.time() - initTime;
+    result.executionTime = executionTime;
+    
+    return result;
 }

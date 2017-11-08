@@ -8,7 +8,7 @@ const SelectOptionField = ({name, label, value, options, disabled, onChange}) =>
       <div>
         <SelectField fullWidth={true} floatingLabelText={label} name={name} value={value} onChange={dispatchSetValue(onChange, name)} disabled={disabled}>
           {options.map((item, i) =>
-            <MenuItem value={i} primaryText={item.name} key={i}/>
+            <MenuItem value={i} primaryText={item} key={i}/>
           )}
         </SelectField>
       </div>

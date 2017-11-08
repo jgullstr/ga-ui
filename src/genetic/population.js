@@ -1,5 +1,5 @@
 import {randomizeTypedArray} from './random';
-import {minValue} from './fitness';
+import {minValue} from './evaluators';
 
 /**
  * Population class. Does most of the heavy lifting.
@@ -28,6 +28,9 @@ export class bin32Population {
         
         /** @type {Function} */
         this.init = init;
+
+        /** @type {Integer} */
+        this.executionTime = 0;
 
         if (init instanceof Int32Array) {
             /** @type {Int32Array} */
@@ -96,7 +99,6 @@ export class bin32Population {
         let i = -1;
         const length = this.size;
         const lastIndex = length - 1;
-        const values = this._values;
         const result = this._values.slice();
         while (++i < length) {
             const rand = i + Math.floor(Math.random() * (lastIndex - i + 1));
@@ -130,7 +132,7 @@ export class bin32Population {
      * @returns {bin32Population} New population with array as values.
      */
     fromArray(array) {
-        if (array.length != this.size) {
+        if (array.length !== this.size) {
             throw new RangeError(`Array needs to contain ${this.size} values.`);
         }
         if (array instanceof Int32Array) {
@@ -243,3 +245,21 @@ export class bin32Population {
         return this._bestSolution;
     }
 };
+
+const populations = [
+    {
+        name: "Binary population",
+        description: "Operates on binary values.",
+        class: bin32Population,
+        params: [
+            {
+                name: "Bit length",
+                description: "Amount of bits (1-32) in each chromosome.",
+                type: 'int',
+                range: [1,32]
+            }
+        ]
+    }
+];
+
+export default populations;

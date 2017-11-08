@@ -7,6 +7,7 @@ const SliderField = ({name, label, min, max, step, value, disabled, onChange}) =
       <div>
         <label>{label}: {value}</label><br />
         <Slider
+          onKeyDown={(x) => (x)}
           sliderStyle={{marginBottom:10}}
           name={name}
           min={min}

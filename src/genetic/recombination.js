@@ -74,3 +74,56 @@ export const menageATrois = (bitSize) => {
     fn(v3 & v1, v2)[0]
   ];
 }
+
+const recombinators = [
+  {
+      name: "Single point crossover",
+      description: "Swap tails of parents at a random point.",
+      fn: crossoverSinglePoint,
+      params: []
+  },
+  {
+      name: "N-point crossover",
+      description: "Swap tails of parents at a random index n times with probability p.",
+      fn: crossoverNPoints,
+      params: [
+          {
+              name: "Points",
+              description: "Amount of swaps.",
+              type: 'int'
+          },
+          {
+              name: "Probability",
+              description: "Probability for a single mutation.",
+              type: 'float',
+              range: [0,1]
+          }
+      ]
+  },
+  {
+      name: "Uniform crossover",
+      description: "Swap each allele between parents with 50% probability.",
+      function: crossoverUniform,
+      params: [
+          {
+              name: "Points",
+              description: "Amount of swaps.",
+              type: 'int'
+          },
+          {
+              name: "Probability",
+              description: "Probability for a single mutation.",
+              type: 'float',
+              range: [0,1]
+          }
+      ]
+  },
+  {
+      name: "Three-parent crossover",
+      description: "(Experimental) Uniform crossover between each parent and common alleles between the remaining two.",
+      fn: menageATrois,
+      params: []
+  },
+];
+
+export default recombinators;

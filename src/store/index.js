@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import actionObjs from './actions';
+import { getActions } from './actions/actionLibrary';
 
 import logger from 'redux-logger'
 
@@ -8,8 +8,9 @@ const middleware = [
 ]
 
 const reducer = (state = [], action) => {
+  const actionObjs = getActions();
   if (actionObjs.hasOwnProperty(action.type)) {
-    return actionObjs[action.type].reducer(state, action);
+    return actionObjs[action.type](state, action);
   }
   return state;
 }
@@ -27,14 +28,6 @@ const composedEnhancers = compose(
   applyMiddleware(...middleware),
   enhancer
 )
-
-let actionTypes = {};
-for(var key in actionObjs) {
-  if(actionObjs.hasOwnProperty(key)) {
-    actionTypes[key] = key;
-  }
-}
-export const actions = actionTypes;
 
 export const createStoreWithData = (initialState) => createStore(
   reducer,
