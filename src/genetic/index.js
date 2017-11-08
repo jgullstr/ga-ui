@@ -12,7 +12,7 @@ const identity = {
     name: "Identity function",
     description: "Returns unaltered value(s).",
     params: [],
-    function: x => x
+    fn: x => x
 }
 
 const genetic = {

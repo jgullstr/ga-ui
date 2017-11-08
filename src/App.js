@@ -8,9 +8,17 @@ import { Provider } from 'react-redux';
 import { createStoreWithData } from './store';
 import genetic from './genetic';
 
+import Genetic from './components/Genetic/Genetic';
 import AppDrawer from './components/App/AppDrawer';
 import AppHeader from './components/App/AppHeader';
 import AppBody from './components/App/AppBody';
+
+import bin32Population from './genetic/population';
+import bin32Codec from './genetic/codec';
+
+// No support for different codecs or populations in current version.
+const populationClass = bin32Population;
+const codecClass = bin32Codec;
 
 const functions = [
   {
@@ -42,7 +50,7 @@ const defaultConfig = {
     initializer: 0,
     locked: false,
   },
-  instanceConfigurations: [],
+  instanceConfiguration: [],
   evolve: 0,
   generation: 0,
   options: {
@@ -50,7 +58,8 @@ const defaultConfig = {
     initializers: genetic.initializers.map(fn => fn.name),
     evaluators: genetic.evaluators.map(fn => fn.name)
   },
-  data: []
+  data: [],
+  rebuild: false,
 };
 
 const store = createStoreWithData(defaultConfig);
@@ -61,6 +70,7 @@ const App = (props) => {
       <MuiThemeProvider>
         <Provider store={store}>
           <div className="container">
+            <Genetic functions={functions} library={genetic}/>
             <AppHeader/>
             <AppDrawer/>
             <AppBody/>
