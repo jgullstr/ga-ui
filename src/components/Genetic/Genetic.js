@@ -91,7 +91,7 @@ class Genetic extends Component {
 
     rebuildConfig(props) {
         return {
-            codec: new bin32Codec(props.global.argRanges, null, props.global.bitSize),
+            codec: new bin32Codec(this.functions[props.global.fn].defaultRanges, null, props.global.bitSize),
             fn: this.functions[props.global.fn].fn,
             initializer: this.library.initializers[props.global.initializer].fn,
             evaluator: this.library.evaluators[props.global.evaluator].fn,
