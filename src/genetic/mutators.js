@@ -1,4 +1,4 @@
-import {singleMasks} from './codec';
+import {singleMasks} from './codecs';
 import {randomBoolean} from './random';
 
 /**
@@ -18,8 +18,8 @@ export const mutateRandom = bitSize => p => value => {
     return value;
 }
 
-const mutators = [
-    {
+const mutators = {
+    RANDOM: {
         name: "Random mutation",
         description: "Flip each allele with a probability p.",
         fn: mutateRandom,
@@ -32,6 +32,6 @@ const mutators = [
             }
         ]
     }
-];
+};
 
 export default mutators;

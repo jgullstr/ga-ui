@@ -39,13 +39,13 @@ export const rouletteWheel = population => {
 };
 
 
-const parentSelectors = [
-    {
+const parentSelectors = {
+    ROULETTE_WHEEL: {
         name: "Roulette Wheel Selection",
         description: "Creates a new population with members randomly selected from input based on their fitness.",
         fn: rouletteWheel,
         params: []
     }
-];
+};
 
 export default parentSelectors;

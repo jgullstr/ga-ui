@@ -7,9 +7,9 @@ const reducer = (state = {}, action) => {
         ...state,
         globalConfiguration: {
             ...state.globalConfiguration,
-            locked: true
+            locked: true,
+            rebuild: true
         },
-        rebuild: true
     }
 };
 

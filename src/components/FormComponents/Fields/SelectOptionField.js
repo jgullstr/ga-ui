@@ -7,8 +7,8 @@ const SelectOptionField = ({name, label, value, options, disabled, onChange}) =>
     return (
       <div>
         <SelectField fullWidth={true} floatingLabelText={label} name={name} value={value} onChange={dispatchSetValue(onChange, name)} disabled={disabled}>
-          {options.map((item, i) =>
-            <MenuItem value={i} primaryText={item} key={i}/>
+          {Object.keys(options).map((key) => 
+            <MenuItem value={key} primaryText={options[key]} key={key}/>
           )}
         </SelectField>
       </div>

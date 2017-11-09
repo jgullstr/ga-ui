@@ -42,3 +42,5 @@ export const evolve = (selectParents) => (recombine) => (mutate) => (selectSurvi
     
     return result;
 }
+
+export default evolve;

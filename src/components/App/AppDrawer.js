@@ -7,7 +7,8 @@ import GlobalConfiguration from '../GlobalConfiguration/GlobalConfiguration';
 
 import toggleDrawer from '../../store/actions/toggleDrawer';
 
-const AppDrawer = ({open, toggleDrawer}) => {
+const AppDrawer = ({open, toggleDrawer, options}) => {
+  console.log(options);
   return (
     <Drawer
       docked={false}
@@ -17,7 +18,7 @@ const AppDrawer = ({open, toggleDrawer}) => {
       <div className="padded">
         <h2>Global configuration</h2>
         <div className="padded">
-          <GlobalConfiguration/>
+          <GlobalConfiguration options={options}/>
         </div>
       </div>
     </Drawer>

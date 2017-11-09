@@ -1,5 +1,5 @@
 import {randomizeTypedArray} from './random';
-import {fullMasks} from './codec';
+import {fullMasks} from './codecs';
 
 const randomInit = (populationSize) => {
     const result = new Int32Array(populationSize);
@@ -18,17 +18,17 @@ const globalRandomInit = (populationSize) => {
     return globalRandoms.slice(populationSize);
 }
 
-const initializers = [
-    {
+const initializers = {
+    RANDOM_GLOBAL: {
         name: 'Random (global)',
         description: 'Every instance will be initialized with the same random values.',
         fn: globalRandomInit
     },
-    {
+    RANDOM_INSTANCE: {
         name: 'Random (per instance)',
         description: 'Every instance will be initialized with random values.',
         fn: randomInit
     },
-];
+};
 
 export default initializers;

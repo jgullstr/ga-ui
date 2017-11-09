@@ -246,8 +246,8 @@ export class bin32Population {
     }
 };
 
-const populations = [
-    {
+const populations = {
+    BINARY: {
         name: "Binary population",
         description: "Operates on binary values.",
         class: bin32Population,
@@ -260,6 +260,6 @@ const populations = [
             }
         ]
     }
-];
+};
 
 export default populations;

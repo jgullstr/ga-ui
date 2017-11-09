@@ -1,12 +1,11 @@
-import codecs from './codec';
-import {evolve} from './evolve';
+import codecs from './codecs';
 import evaluators from './evaluators';
 import initializers from './initializers';
-import mutators from './mutation';
-import populations from './population';
-import recombinators from './recombination'
-import parentSelectors from './parentselection'
-import survivorSelectors from './survivorselection'
+import mutators from './mutators';
+import populations from './populations';
+import recombiners from './recombiners';
+import parentSelectors from './parentSelectors';
+import survivorSelectors from './survivorSelectors';
 
 const identity = {
     name: "Identity function",
@@ -18,13 +17,12 @@ const identity = {
 const genetic = {
     codecs: codecs,
     populations: populations,
-    parentSelectors: [...parentSelectors, identity],
-    recombinators: [...recombinators, identity],
-    mutators: [...mutators, identity],
-    survivorSelectors: [...survivorSelectors, identity],
-    evaluators: evaluators,
     initializers: initializers,
-    generator: evolve,
+    parentSelectors: {...parentSelectors, IDENTITY: identity},
+    recombiners: {...recombiners, IDENTITY: identity},
+    mutators: {...mutators, IDENTITY: identity},
+    survivorSelectors: {...survivorSelectors, IDENTITY: identity},
+    evaluators: evaluators,
 };
 
 export default genetic;

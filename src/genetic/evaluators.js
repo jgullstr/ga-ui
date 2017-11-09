@@ -15,17 +15,17 @@ export const maxValue = x => x;
 export const minValue = x => -x;
 
 
-const evaluators = [
-    {
+const evaluators = {
+    MAX: {
         name: 'Maximize',
         description: 'Find maximum value.',
         fn: maxValue,
     },
-    {
+    MIN: {
         name: 'Minimize',
         description: 'Find minimum value.',
         fn: minValue,
     }
-];
+};
 
 export default evaluators;

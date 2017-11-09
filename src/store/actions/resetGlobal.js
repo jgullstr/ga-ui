@@ -7,11 +7,11 @@ const reducer = (state = {}, action) => {
         ...state,
         globalConfiguration: {
             ...state.globalConfiguration,
-            locked: false
+            locked: false,
+            rebuild: false
         },
         evolve: 0,
         generation: 0,
-        rebuild: false,
         data: []
     }
 };

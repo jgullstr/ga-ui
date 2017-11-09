@@ -3,7 +3,6 @@ import { registerAction } from './actionLibrary';
 const TOGGLE_DRAWER = 'TOGGLE_DRAWER';
 
 const reducer = (state = {}, action) => {
-    console.log('clickeyuuuu');
     return {
         ...state,
         ui: {

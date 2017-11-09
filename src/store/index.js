@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import { getActions } from './actions/actionLibrary';
+import actionLibrary from './actions/actionLibrary';
 
 import logger from 'redux-logger'
 
@@ -8,9 +8,8 @@ const middleware = [
 ]
 
 const reducer = (state = [], action) => {
-  const actionObjs = getActions();
-  if (actionObjs.hasOwnProperty(action.type)) {
-    return actionObjs[action.type](state, action);
+  if (actionLibrary.hasOwnProperty(action.type)) {
+    return actionLibrary[action.type](state, action);
   }
   return state;
 }

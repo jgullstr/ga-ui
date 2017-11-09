@@ -45,6 +45,16 @@ const GlobalConfiguration = ({options, values, resetGlobal, initGlobal, setGloba
         <span className="hint">Amount of bits for a single chromosome.</span><br /><br />
 
         <br />
+        <label>Function:</label><br /><br />
+        <SelectOptionField
+          name="fn"
+          options={options.functions}
+          value={values.fn}
+          onChange={setGlobalConfig}
+          disabled={values.locked}
+        />
+        <br /><span className="hint">Function to determine fitness.</span><br /><br />
+        <br />
         <label>Evaluator:</label><br /><br />
         <RadioOptionField
           name="evaluator"
@@ -75,8 +85,7 @@ const GlobalConfiguration = ({options, values, resetGlobal, initGlobal, setGloba
 }
 
 const mapStateToProps = (state) => ({
-  values: state.globalConfiguration,
-  options: state.options
+  values: state.globalConfiguration
 });
 
 function mapDispatchToProps(dispatch) {

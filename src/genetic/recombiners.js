@@ -1,5 +1,5 @@
 import {randomBoolean, randomInteger} from './random';
-import {fullMasks} from './codec';
+import {fullMasks} from './codecs';
 
 /**
  * Crossover two binary values.
@@ -75,14 +75,14 @@ export const menageATrois = (bitSize) => {
   ];
 }
 
-const recombinators = [
-  {
+const recombinators = {
+  SINGLE_POINT_CROSSOVER: {
       name: "Single point crossover",
       description: "Swap tails of parents at a random point.",
       fn: crossoverSinglePoint,
       params: []
   },
-  {
+  N_POINT_CROSSOVER: {
       name: "N-point crossover",
       description: "Swap tails of parents at a random index n times with probability p.",
       fn: crossoverNPoints,
@@ -100,7 +100,7 @@ const recombinators = [
           }
       ]
   },
-  {
+  UNIFORM_CROSSOVER: {
       name: "Uniform crossover",
       description: "Swap each allele between parents with 50% probability.",
       function: crossoverUniform,
@@ -118,12 +118,12 @@ const recombinators = [
           }
       ]
   },
-  {
+  THREE_PARENT_CROSSOVER: {
       name: "Three-parent crossover",
       description: "(Experimental) Uniform crossover between each parent and common alleles between the remaining two.",
       fn: menageATrois,
       params: []
   },
-];
+};
 
 export default recombinators;

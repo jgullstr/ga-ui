@@ -1,4 +1,4 @@
 
-const survivorSelectors = [];
+const survivorSelectors = {};
 
 export default survivorSelectors;
