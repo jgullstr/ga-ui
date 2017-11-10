@@ -86,4 +86,11 @@ LocalConfigForm.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(LocalConfigForm);
+const config = (props) => {
+  return (
+    <h1>Cionfiuginhg</h1>
+  );
+}
+
+
+export default config;

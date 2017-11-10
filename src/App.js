@@ -20,9 +20,9 @@ const defaultConfig = {
   // If locked, global configuration cannot be edited.
   ui: {
     displayDrawer: false,
-    viewMode: 'instanceConfig',
+    viewMode: 'InstancesConfiguration',
   },
-  instanceConfiguration: [],
+  instanceConfiguration: [{a:1, b:2}],
   evolve: 0,
   generation: 0,
   data: [],

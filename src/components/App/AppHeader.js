@@ -3,22 +3,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import AppBar from 'material-ui/AppBar';
-import IconButton from 'material-ui/IconButton';
 
 import toggleDrawer from '../../store/actions/toggleDrawer';
 
-const ViewModeToggler = (props) => {
-    return (
-      <div>
-        <IconButton tooltip="Instance settings" iconClassName="material-icons">
-          settings
-        </IconButton>
-        <IconButton tooltip="Chart" iconClassName="material-icons">
-          show_chart
-        </IconButton>
-      </div>
-    );
-  }
+import ViewModeToggler from '../ViewModes/ViewModeToggler';
   
 const AppHeader = ({toggleDrawer}) => {
     return (

@@ -63,7 +63,8 @@ class Genetic extends Component {
         if (nextProps.global.rebuild) {
             const config = this.rebuildConfig(nextProps);
             const populations = this.rebuildPopulations(nextProps, config);
-            const instanceEvolvers = this.rebuildInstanceEvolvers(nextProps, true);
+            //const instanceEvolvers = this.rebuildInstanceEvolvers(nextProps, true);
+            const instanceEvolvers = [];
 
             this.setState({
                 ...config,
@@ -71,21 +72,27 @@ class Genetic extends Component {
                 instanceEvolvers: instanceEvolvers
             });
 
-            // Trigger rebuilt
-            this.props.rebuilt();
+            // Trigger rebuilt action.
+            return this.props.rebuilt();
         }
-        // Check for instance rebuilds.
-        else {
+        
+        // If configurations have been added / removed.
+        const instanceKeys = nextProps.instances.reduce((result, instance, i) => {
+            if (typeof(instance) === "undefined") {
+                return result;
+            }
+            return [...result, i];
+        },[])
 
-        }
-        // 
-        /*if (this.props.instanceEvolvers.length != nextProps.instances.length) {
+        console.log(this.props.instances === nextProps.instances);
+        // Instances have been modified.
+        if (instanceKeys !== this.props.instances.keys()) {
 
         }
 
         if (nextProps.generations) {
 
-        }*/
+        }
     }
 
 
