@@ -23,7 +23,6 @@ const defaultConfig = {
     viewMode: 'InstancesConfiguration',
   },
   instanceConfiguration: [{a:1, b:2}],
-  evolve: 0,
   generation: 0,
   data: [],
 };
