@@ -24,6 +24,16 @@ const getOptions = (obj) => {
     return newObj;
 }
 
+const getParams = (obj) => {
+    const newObj = {};
+    for(let key in obj) {
+        if(obj.hasOwnProperty(key)) {
+            newObj[key] = obj[key].hasOwnProperty('params') ? obj[key].params : [];
+        }
+    }
+    return newObj;
+}
+
 class Genetic extends Component {
     constructor(props, context) {
         super(props, context)
@@ -39,6 +49,16 @@ class Genetic extends Component {
             survivorSelectors: getOptions(library.survivorSelectors),
             evaluators: getOptions(library.evaluators),
             functions: getOptions(functions),
+        }
+
+        this.params = {
+            initializers: getParams(library.initializers),
+            parentSelectors: getParams(library.parentSelectors),
+            recombiners: getParams(library.recombiners),
+            mutators: getParams(library.mutators),
+            survivorSelectors: getParams(library.survivorSelectors),
+            evaluators: getParams(library.evaluators),
+            functions: getParams(functions),
         }
 
         if (typeof(this.global) === 'undefined') {
@@ -82,15 +102,17 @@ class Genetic extends Component {
                 return result;
             }
             return [...result, i];
-        },[])
+        },[]);
 
-        console.log(this.props.instances === nextProps.instances);
+        const generation = nextProps.generation;
+
         // Instances have been modified.
         if (instanceKeys !== this.props.instances.keys()) {
 
         }
 
-        if (nextProps.generations) {
+        if (this.props.generation < nextProps.generations) {
+            // Foreach locked instance, bring its corresponding data up to next generation.
 
         }
     }
@@ -128,7 +150,8 @@ class Genetic extends Component {
     render() {
         return typeof(this.props.global) === 'undefined' ? null : Children.map(this.props.children,
             (child) => cloneElement(child, {
-                options: this.options
+                options: this.options,
+                params: this.params,
             })
         );
     }

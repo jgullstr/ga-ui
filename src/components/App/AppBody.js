@@ -20,7 +20,7 @@ const AppBody = (props) => {
     const ViewMode = ViewModes.hasOwnProperty(props.mode) ? ViewModes[props.mode] : error;
     return (
       <div className="content">
-        <ViewMode/>
+        <ViewMode options={props.options} params={props.params}/>
       </div>
     );
 }

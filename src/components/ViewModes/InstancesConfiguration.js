@@ -5,25 +5,26 @@ import IconButton from 'material-ui/IconButton';
 import Divider from 'material-ui/Divider';
 import InstanceConfiguration from '../InstanceConfiguration/InstanceConfiguration';
 
-const InstancesConfiguration = () => (
-    <Card>
-        <CardHeader
-            title="New instance"
-            subtitle="Set up instances of evolutionary algorithms operating according to global configuration settings."
-        />
-        <Divider/>
-        <CardText style={{padding: 0}}>
-            <InstanceConfiguration/>
-        </CardText>
-        <Divider/>
-        <CardActions>
-        <IconButton
-            tooltip="Add instance"
-            iconClassName="material-icons"
-            onClick={() => console.log('click')}
-        >add</IconButton>
-        </CardActions>
-    </Card>
-);
-
+const InstancesConfiguration = (props) => {
+    return (
+        <Card>
+            <CardHeader
+                title="New instance"
+                subtitle="Set up instances of evolutionary algorithms operating according to global configuration settings."
+            />
+            <Divider/>
+            <CardText style={{padding: 0}}>
+                <InstanceConfiguration options={props.options} params={props.params}/>
+            </CardText>
+            <Divider/>
+            <CardActions>
+            <IconButton
+                tooltip="Add instance"
+                iconClassName="material-icons"
+                onClick={() => console.log('click')}
+            >add</IconButton>
+            </CardActions>
+        </Card>
+    );
+}
 export default InstancesConfiguration;
