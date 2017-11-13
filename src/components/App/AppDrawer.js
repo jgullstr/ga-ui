@@ -8,7 +8,6 @@ import GlobalConfiguration from '../GlobalConfiguration/GlobalConfiguration';
 import toggleDrawer from '../../store/actions/toggleDrawer';
 
 const AppDrawer = ({open, toggleDrawer, options}) => {
-  console.log(options);
   return (
     <Drawer
       docked={false}
