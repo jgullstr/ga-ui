@@ -1,7 +1,5 @@
 import { registerAction } from './actionLibrary';
 
-const SET_VIEW_MODE = 'SET_VIEW_MODE';
-
 const reducer = (state = {}, action) => {
     return {
         ...state,
@@ -12,10 +10,4 @@ const reducer = (state = {}, action) => {
     }
 };
 
-const actionCreator = (payload) => ({
-    type: SET_VIEW_MODE,
-    payload: payload,
-});
-registerAction(SET_VIEW_MODE, reducer);
-
-export default actionCreator
+export default registerAction('SET_VIEW_MODE', reducer);

@@ -1,7 +1,5 @@
 import { registerAction } from './actionLibrary';
 
-const RESET_GLOBAL = 'RESET_GLOBAL';
-
 const reducer = (state = {}, action) => {
     return {
         ...state,
@@ -16,10 +14,4 @@ const reducer = (state = {}, action) => {
     }
 };
 
-const actionCreator = (payload) => ({
-    type: RESET_GLOBAL,
-    payload: payload,
-});
-registerAction(RESET_GLOBAL, reducer);
-
-export default actionCreator
+export default registerAction('RESET_GLOBAL', reducer);

@@ -1,7 +1,5 @@
 import { registerAction } from './actionLibrary';
 
-const GLOBAL_CONFIG_SET = 'GLOBAL_CONFIG_SET';
-
 const reducer = (state = {}, action) => {
     return {
         ...state,
@@ -12,10 +10,4 @@ const reducer = (state = {}, action) => {
     }
 };
 
-const actionCreator = (payload) => ({
-    type: GLOBAL_CONFIG_SET,
-    payload: payload,
-});
-registerAction(GLOBAL_CONFIG_SET, reducer);
-
-export default actionCreator
+export default registerAction('GLOBAL_CONFIG_SET', reducer);

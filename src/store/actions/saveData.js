@@ -1,7 +1,5 @@
 import { registerAction } from './actionLibrary';
 
-const SAVE_DATA = 'SAVE_DATA';
-
 const reducer = (state = {}, action) => {
     return {
         ...state,
@@ -9,10 +7,4 @@ const reducer = (state = {}, action) => {
     }
 };
 
-const actionCreator = (payload) => ({
-    type: SAVE_DATA,
-    payload: payload,
-});
-registerAction(SAVE_DATA, reducer);
-
-export default actionCreator
+export default registerAction('SAVE_DATA', reducer);

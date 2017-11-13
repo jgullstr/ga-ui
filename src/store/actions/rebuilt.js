@@ -1,7 +1,5 @@
 import { registerAction } from './actionLibrary';
 
-const REBUILT = 'REBUILT';
-
 const reducer = (state = {}, action) => {
     return {
         ...state,
@@ -10,10 +8,4 @@ const reducer = (state = {}, action) => {
     }
 };
 
-const actionCreator = (payload) => ({
-    type: REBUILT,
-    payload: payload,
-});
-registerAction(REBUILT, reducer);
-
-export default actionCreator
+export default registerAction('REBUILT', reducer);
