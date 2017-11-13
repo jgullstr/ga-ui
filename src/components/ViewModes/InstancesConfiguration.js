@@ -14,7 +14,7 @@ import updateInstance from '../../store/actions/updateInstance';
 import deleteInstance from '../../store/actions/deleteInstance';
 
 // Default new configuration.
-const defaultConfig = {
+const defaultConfig = () => ({
     parentSelectors: [
         {name: 'IDENTITY', params: []},
     ],
@@ -28,50 +28,57 @@ const defaultConfig = {
         {name: 'IDENTITY', params: []},
     ],
     locked: false,
-    rebuild: false
-}
+    rebuild: false,
+    expanded: true,
+});
 
 const InstancesConfiguration = (props) => {
     return (
         <div className="container">
-        <Card>
-            <CardHeader
-                title="New instance"
-                subtitle="Set up instances of evolutionary algorithms operating according to global configuration settings."
-            />
-            <Divider/>
-            <CardText style={{padding: 0}}>
-                <InstanceConfiguration options={props.options} params={props.params}/>
-            </CardText>
-            <Divider/>
-            <CardActions>
-                <IconButton
-                    tooltip="Lock"
-                    iconClassName="material-icons"
-                    onClick={() => console.log('click')}
-                >lock</IconButton>
-                <IconButton
-                    tooltip="Clone"
-                    iconClassName="material-icons"
-                    onClick={() => console.log('click')}
-                >filter_none</IconButton>
-                <IconButton
-                    tooltip="Delete"
-                    iconClassName="material-icons"
-                    onClick={() => console.log('click')}
-                >delete_forever</IconButton>
-            </CardActions>
-        </Card>
-        
+        {props.instanceConfigurations.map((config, key) => {
+            return (
+                <div key={key} style={{marginBottom: 20}}>
+            <Card initiallyExpanded={true}>
+                <CardHeader
+                    title={`Instance #${key}`}
+                    actAsExpander={true}
+                    showExpandableButton={true}
+                    //subtitle="Set up instances of evolutionary algorithms operating according to global configuration settings."
+                />
+                <Divider/>
+                <CardText style={{padding: 0}} expandable={true}>
+                    <InstanceConfiguration config={config} options={props.options} params={props.params}/>
+                    <Divider/>
+                    <CardActions>
+                        <IconButton
+                            tooltip="Lock"
+                            iconClassName="material-icons"
+                            onClick={() => console.log('click')}
+                        >lock</IconButton>
+                        <IconButton
+                            tooltip="Clone"
+                            iconClassName="material-icons"
+                            onClick={() => console.log('click')}
+                        >filter_none</IconButton>
+                        <IconButton
+                            tooltip="Delete"
+                            iconClassName="material-icons"
+                            onClick={() => console.log('click')}
+                        >delete_forever</IconButton>
+                    </CardActions>
+                </CardText>
+            </Card>
+            </div>
+            );
+        })}
         <IconButton
             tooltip="Add new instance"
             iconClassName="material-icons"
-            onClick={() => props.addInstance(defaultConfig)}
+            onClick={() => props.addInstance(defaultConfig())}
         >add_circle</IconButton>
         </div>
     );
 }
-
 
 const mapStateToProps = (state) => ({
     instanceConfigurations: state.instanceConfigurations,
