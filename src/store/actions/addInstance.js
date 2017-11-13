@@ -3,10 +3,10 @@ import { registerAction } from './actionLibrary';
 const reducer = (state = {}, action) => {
     return {
         ...state,
-        instanceConfiguration: {
-            ...state.instanceConfiguration,
-            ...action.payload
-        },
+        instanceConfigurations: [
+            ...state.instanceConfigurations,
+            action.payload
+        ],
     }
 };
 

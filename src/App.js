@@ -21,8 +21,9 @@ const defaultConfig = {
   ui: {
     displayDrawer: false,
     viewMode: 'InstancesConfiguration',
+    instanceDraft: {},
   },
-  instanceConfiguration: [{a:1, b:2}],
+  instanceConfigurations: [],
   generation: 0,
   data: [],
 };

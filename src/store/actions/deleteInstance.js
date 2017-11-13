@@ -4,15 +4,12 @@ const reducer = (state = {}, action) => {
     return {
         ...state,
         instanceConfigurations: state.instanceConfigurations.map((config, i) => {
-            if (i === action.payload.index) {
-                return {
-                    ...config,
-                    ...action.payload.data
-                }
+            if (i === action.payload) {
+                return undefined;
             }
             return config;
         })
     }
 };
 
-export default registerAction('UPDATE_INSTANCE', reducer);
+export default registerAction('DELETE_INSTANCE', reducer);

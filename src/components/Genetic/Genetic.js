@@ -137,11 +137,27 @@ class Genetic extends Component {
         return props.instances.map((instanceConfig, i) => {
             if (instanceConfig.rebuild || force) {
                 // Reverse composition?
-                const selectParents = compose(...instanceConfig.selectParents.map((i) => this.library.selectParents[i].fn))
-                const recombine = compose(...instanceConfig.recombine.map((i) => this.library.recombine[i].fn))
-                const mutate = compose(...instanceConfig.mutate.map((i) => this.library.mutate[i].fn))
-                const selectSurvivors = compose(...instanceConfig.selectSurvivors.map((i) => this.library.selectSurvivors[i].fn))
-                return evolve(selectParents)(recombine)(mutate)(selectSurvivors);
+                const parentSelector = compose(
+                    ...instanceConfig.parentSelectors.map(
+                        ({name, params}) => this.library.parentSelectors[i].fn
+                    )
+                );
+                const recombiner = compose(
+                    ...instanceConfig.recombiners.map(
+                        ({name, params}) => this.library.recombiners[name].fn(params)
+                    )
+                );
+                const mutator = compose(
+                    ...instanceConfig.mutators.map(
+                        ({name, params}) => this.library.mutators[name].fn(...params)
+                    )
+                );
+                const survivorSelector = compose(
+                    ...instanceConfig.survivorSelectors.map(
+                        ({name, params}) => this.library.survivorSelectors[i].fn
+                    )
+                );
+                return evolve(parentSelector)(recombiner)(mutator)(survivorSelector);
             }
             return this.state.instanceEvolvers[i];
         });
@@ -159,7 +175,7 @@ class Genetic extends Component {
 
 const mapStateToProps = (state) => ({
     global: state.globalConfiguration,
-    instances: state.instanceConfiguration,
+    instances: state.instanceConfigurations,
     rebuild: state.rebuild,
     evolve: state.evolve
 });
