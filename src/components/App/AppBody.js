@@ -5,6 +5,13 @@ import { bindActionCreators } from 'redux';
 import Chart from '../ViewModes/Chart';
 import InstancesConfiguration from '../ViewModes/InstancesConfiguration';
 
+const styles = {
+  body: {
+    marginBottom: 56,
+    marginTop: 56
+  }
+}
+
 const error = ({name}) => {
   return (
     <div>Unknown view mode: {name}</div>
@@ -19,7 +26,7 @@ const ViewModes = {
 const AppBody = (props) => {
     const ViewMode = ViewModes.hasOwnProperty(props.mode) ? ViewModes[props.mode] : error;
     return (
-      <div className="content">
+      <div className="content" style={styles.body}>
         <ViewMode options={props.options} params={props.params}/>
       </div>
     );

@@ -12,6 +12,7 @@ import Genetic from './components/Genetic/Genetic';
 import AppDrawer from './components/App/AppDrawer';
 import AppHeader from './components/App/AppHeader';
 import AppBody from './components/App/AppBody';
+import AppFooter from './components/App/AppFooter';
 
 /**
  * Default, empty configuration.
@@ -38,6 +39,7 @@ const App = (props) => {
             <AppHeader/>
             <AppDrawer/>
             <AppBody/>
+            <AppFooter/>
           </Genetic>
         </Provider>
       </MuiThemeProvider>

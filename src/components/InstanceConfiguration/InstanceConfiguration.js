@@ -102,7 +102,7 @@ class InstanceConfiguration extends Component {
         </div>
         
         <div style={style.rightCell}>
-          <h1>{ConfigTab}</h1>
+          {ConfigTab}
         </div>
         <div style={style.clear}></div>
       </div>

@@ -8,10 +8,23 @@ import toggleDrawer from '../../store/actions/toggleDrawer';
 
 import ViewModeToggler from '../ViewModes/ViewModeToggler';
   
+const styles = {
+    appbar: {
+        position: 'fixed',
+        width: '100%',
+        top: 0,
+    }
+}
+
 const AppHeader = ({toggleDrawer}) => {
     return (
         <header className="App-header">
-        <AppBar title="Genetic algorithm evaluator" iconElementRight={<ViewModeToggler />} onLeftIconButtonTouchTap={toggleDrawer}/>
+        <AppBar
+            title="Genetic algorithm evaluator"
+            iconElementRight={<ViewModeToggler />}
+            onLeftIconButtonTouchTap={toggleDrawer}
+            style={styles.appbar}
+        />
         </header>
     );
 }
