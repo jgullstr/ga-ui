@@ -57,25 +57,25 @@ class InstanceConfiguration extends Component {
 
       case "parentselection":
         options = this.props.options.parentSelectors;
-        return <FunctionComposer options={options}/>;
+        return <FunctionComposer options={options} type="Parent selector"/>;
 
       case "recombination":
         options = this.props.options.recombiners;
-        return <FunctionComposer options={options}/>;
+        return <FunctionComposer options={options} type="Recombiner"/>;
   
       case "mutation":
         options = this.props.options.mutators;
-        return <FunctionComposer options={options}/>;
+        return <FunctionComposer options={options} type="Mutator"/>;
 
-      case "survivorselection":    
+      case "survivorselection":
         options = this.props.options.survivorSelectors;
-        return <FunctionComposer options={options}/>;
+        return <FunctionComposer options={options} type="Survivor selector"/>;
 
       default:
         options = {
           todo: "todo",
         };    
-        return <FunctionComposer options={options}/>;
+        return <FunctionComposer options={options} type="Parent selector"/>;
     }
   }
 
