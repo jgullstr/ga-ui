@@ -52,6 +52,8 @@ class AppFooter extends React.Component {
                 >swap_vert</IconButton>
             }
           >
+            <MenuItem primaryText="Recalculate" />
+            <MenuItem primaryText="Reset" />
             <MenuItem primaryText="Import configuration" />
             <MenuItem primaryText="Export configuration" />
             <MenuItem primaryText="Export data" />
