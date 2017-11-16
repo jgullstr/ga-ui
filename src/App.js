@@ -13,6 +13,7 @@ import AppDrawer from './components/App/AppDrawer';
 import AppHeader from './components/App/AppHeader';
 import AppBody from './components/App/AppBody';
 import AppFooter from './components/App/AppFooter';
+import Progress from './components/App/Progress';
 
 /**
  * Default, empty configuration.
@@ -35,12 +36,14 @@ const App = (props) => {
     return (
       <MuiThemeProvider>
         <Provider store={store}>
-          <Genetic>
-            <AppHeader/>
-            <AppDrawer/>
-            <AppBody/>
-            <AppFooter/>
-          </Genetic>
+          <Progress>
+            <Genetic>
+              <AppHeader/>
+              <AppDrawer/>
+              <AppBody/>
+              <AppFooter/>
+            </Genetic>
+          </Progress>
         </Provider>
       </MuiThemeProvider>
     );
