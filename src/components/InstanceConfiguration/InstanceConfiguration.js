@@ -5,7 +5,12 @@ import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
 import FontIcon from 'material-ui/FontIcon';
 
-import FunctionComposer from '../FormComponents/FunctionComposer';
+import MenuDialog from '../FormComponents/MenuDialog';
+
+import addInstanceFunction from '../../store/actions/addInstanceFunction';
+
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 const style = {
   leftCell: {
@@ -41,41 +46,49 @@ class InstanceConfiguration extends Component {
   }
 
   getComponent() {
-    console.log(this.props.params);
-    let options;
+    const addFunction = this.props.addInstanceFunction;
+    const clickHandler = (index, key) => (fn) => {
+      addFunction({
+        index: index,
+        key: key,
+        fn: fn
+      });
+    }
     switch (this.state.value) {
       case "overview":
-        options = {
-          todo: "todo",
-        };
-        return <FunctionComposer options={options}/>;
-      case "general":
-        options = {
-          todo: "todo",
-        };
-        return <FunctionComposer options={options}/>;
+        return <h1>Overview</h1>;
 
       case "parentselection":
-        options = this.props.options.parentSelectors;
-        return <FunctionComposer options={options} type="Parent selector"/>;
+        return <MenuDialog
+          disabled={this.props.disabled}
+          options={this.props.options.parentSelectors}
+          label="Add parent selector"
+          onClick={clickHandler(this.props.index, 'parentSelectors')}
+        />;
 
       case "recombination":
-        options = this.props.options.recombiners;
-        return <FunctionComposer options={options} type="Recombiner"/>;
+        return <MenuDialog
+          disabled={this.props.disabled}
+          options={this.props.options.recombiners}
+          label="Add recombiner"
+          onClick={clickHandler(this.props.index, 'recombiners')}
+        />;
   
       case "mutation":
-        options = this.props.options.mutators;
-        return <FunctionComposer options={options} type="Mutator"/>;
+        return <MenuDialog
+          disabled={this.props.disabled}
+          options={this.props.options.mutators}
+          label="Add mutator"
+          onClick={clickHandler(this.props.index, 'mutators')}
+        />;
 
       case "survivorselection":
-        options = this.props.options.survivorSelectors;
-        return <FunctionComposer options={options} type="Survivor selector"/>;
-
-      default:
-        options = {
-          todo: "todo",
-        };    
-        return <FunctionComposer options={options} type="Parent selector"/>;
+        return <MenuDialog
+          disabled={this.props.disabled}
+          options={this.props.options.survivorSelectors}
+          label="Add survivor selector"
+          onClick={clickHandler(this.props.index, 'survivorSelectors')}
+        />;
     }
   }
 
@@ -87,7 +100,6 @@ class InstanceConfiguration extends Component {
         <div style={style.leftCell}>
           <Menu  value={this.state.value} listStyle={style.list} onChange={onChange}>
               <MenuItem primaryText="Overview"  value="overview" style={style.inactive} rightIcon={<FontIcon className="material-icons">visibility</FontIcon>} />
-              <MenuItem primaryText="General"  value="general" rightIcon={<FontIcon className="material-icons">settings</FontIcon>} />
               <MenuItem primaryText="Parent selection"  value="parentselection" rightIcon={<FontIcon className="material-icons">wc</FontIcon>} />
               <MenuItem
                 primaryText="Recombination"
@@ -110,4 +122,12 @@ class InstanceConfiguration extends Component {
   }
 }
 
-export default InstanceConfiguration;
+const mapStateToProps = (state) => ({});
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+      addInstanceFunction: addInstanceFunction,
+  }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(InstanceConfiguration);

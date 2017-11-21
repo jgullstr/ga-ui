@@ -12,7 +12,7 @@ import MenuItem from 'material-ui/MenuItem';
  *
  * You can also close this dialog by clicking outside the dialog, or with the 'Esc' key.
  */
-class FunctionComposer extends React.Component {
+class MenuDialog extends React.Component {
   state = {
     open: false,
   };
@@ -26,12 +26,16 @@ class FunctionComposer extends React.Component {
   };
 
   render() {
-    const label = `Add ${this.props.type}`;
+    const dialog = this;
+    const onClick = (key) => () => {
+      dialog.props.onClick(key);
+      dialog.handleClose();
+    }
     return (
       <div>
-        <RaisedButton label={label} onClick={this.handleOpen} />
+        <RaisedButton label={this.props.label} disabled={this.props.disabled} onClick={this.handleOpen} />
         <Dialog
-          title={label}
+          title={this.props.label}
           modal={false}
           open={this.state.open}
           onRequestClose={this.handleClose}
@@ -39,7 +43,7 @@ class FunctionComposer extends React.Component {
         <Menu>
         {Object.keys(this.props.options).map((key) => {
            return (
-            <MenuItem primaryText={this.props.options[key]} secondaryText={key} key={key}/>
+            <MenuItem key={key} primaryText={this.props.options[key]} onClick={onClick(key)}/>
            )
         })}
         </Menu>
@@ -48,4 +52,4 @@ class FunctionComposer extends React.Component {
     );
   }
 }
-export default FunctionComposer;
+export default MenuDialog;
