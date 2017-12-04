@@ -59,7 +59,7 @@ const defaultInstance = {
 
 }
 
-class GeneticEngine {
+class Solver {
     constructor() {
         this.populations = [];
         this.instances = [];
