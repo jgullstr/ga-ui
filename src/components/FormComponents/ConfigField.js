@@ -34,7 +34,6 @@ const ConfigField = (props) => {
             fieldConfig.multiline = true;
             break;
     }
-    console.log(fieldConfig);
     return (
         <TextField {...fieldConfig}/>
     );

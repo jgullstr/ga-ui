@@ -1,6 +1,5 @@
 import React from 'react';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
 import Divider from 'material-ui/Divider';
 import InstanceConfiguration from '../InstanceConfiguration/InstanceConfiguration';
@@ -14,18 +13,10 @@ import deleteInstance from '../../store/actions/deleteInstance';
 
 // Default new configuration.
 const defaultConfig = () => ({
-    parentSelectors: [
-        {name: 'IDENTITY', params: []},
-    ],
-    recombiners: [
-        {name: 'IDENTITY', params: []},
-    ],
-    mutators: [
-        {name: 'IDENTITY', params: []},
-    ],
-    survivorSelectors: [
-        {name: 'IDENTITY', params: []},
-    ],
+    parentSelectors: [],
+    recombiners: [],
+    mutators: [],
+    survivorSelectors: [],
     locked: false,
     rebuild: false,
     expanded: true,
@@ -36,37 +27,37 @@ const InstancesConfiguration = (props) => {
         <div className="container">
         {props.instanceConfigurations.map((config, key) => {
             return (
-            <div key={key} style={{marginBottom: 20}}>
-                <Card initiallyExpanded={true}>
-                    <CardHeader
-                        title={`Instance #${key}`}
-                        actAsExpander={true}
-                        showExpandableButton={true}
-                    />
-                    <Divider/>
-                    <CardText style={{padding: 0}} expandable={true}>
-                        <InstanceConfiguration index={key} config={config} options={props.options} params={props.params}/>
+                <div key={key} style={{marginBottom: 20}}>
+                    <Card initiallyExpanded={true}>
+                        <CardHeader
+                            title={`Instance #${key}`}
+                            actAsExpander={true}
+                            showExpandableButton={true}
+                        />
                         <Divider/>
-                        <CardActions>
-                            <IconButton
-                                tooltip="Lock"
-                                iconClassName="material-icons"
-                                onClick={() => console.log('lock')}
-                            >lock</IconButton>
-                            <IconButton
-                                tooltip="Clone"
-                                iconClassName="material-icons"
-                                onClick={() => props.addInstance(JSON.parse(JSON.stringify(config)))}
-                            >filter_none</IconButton>
-                            <IconButton
-                                tooltip="Delete"
-                                iconClassName="material-icons"
-                                onClick={() => console.log('delete')}
-                            >delete_forever</IconButton>
-                        </CardActions>
-                    </CardText>
-                </Card>
-            </div>
+                        <CardText style={{padding: 0}} expandable={true}>
+                            <InstanceConfiguration index={key} config={config} options={props.options} params={props.params}/>
+                            <Divider/>
+                            <CardActions>
+                                <IconButton
+                                    tooltip="Lock"
+                                    iconClassName="material-icons"
+                                    onClick={() => console.log('lock')}
+                                >lock</IconButton>
+                                <IconButton
+                                    tooltip="Clone"
+                                    iconClassName="material-icons"
+                                    onClick={() => props.addInstance(JSON.parse(JSON.stringify(config)))}
+                                >filter_none</IconButton>
+                                <IconButton
+                                    tooltip="Delete"
+                                    iconClassName="material-icons"
+                                    onClick={() => console.log('delete')}
+                                >delete_forever</IconButton>
+                            </CardActions>
+                        </CardText>
+                    </Card>
+                </div>
             );
         })}
         <IconButton

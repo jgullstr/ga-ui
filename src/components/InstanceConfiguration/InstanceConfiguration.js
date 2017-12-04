@@ -11,6 +11,7 @@ import addInstanceFunction from '../../store/actions/addInstanceFunction';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import ConfigForm from '../FormComponents/ConfigForm';
 
 const style = {
   leftCell: {
@@ -37,6 +38,22 @@ const style = {
   },
 };
 
+const StepForm = (props) => {
+  return (
+    <div>
+      {props.values.map((value, key) =>
+        <ConfigForm key={key} type={props.type} value={value}/>
+      )}
+      <MenuDialog
+        disabled={props.disabled}
+        options={props.options}
+        label={props.label}
+        onClick={props.onClick}
+      />
+    </div>
+  )
+}
+
 class InstanceConfiguration extends Component {
   constructor(props, context) {
     super(props, context);
@@ -59,35 +76,43 @@ class InstanceConfiguration extends Component {
         return <h1>Overview</h1>;
 
       case "parentselection":
-        return <MenuDialog
-          disabled={this.props.disabled}
-          options={this.props.options.parentSelectors}
+        return <StepForm
           label="Add parent selector"
           onClick={clickHandler(this.props.index, 'parentSelectors')}
+          disabled={this.props.disabled}
+          options={this.props.options.parentSelectors}
+          type="parentSelectors"
+          values={this.props.config.parentSelectors}
         />;
 
       case "recombination":
-        return <MenuDialog
-          disabled={this.props.disabled}
-          options={this.props.options.recombiners}
+        return <StepForm
           label="Add recombiner"
           onClick={clickHandler(this.props.index, 'recombiners')}
-        />;
-  
-      case "mutation":
-        return <MenuDialog
           disabled={this.props.disabled}
-          options={this.props.options.mutators}
+          options={this.props.options.recombiners}
+          type="recombiners"
+          values={this.props.config.recombiners}
+        />;
+
+      case "mutation":
+        return <StepForm
           label="Add mutator"
           onClick={clickHandler(this.props.index, 'mutators')}
+          disabled={this.props.disabled}
+          options={this.props.options.mutators}
+          type="mutators"
+          values={this.props.config.mutators}
         />;
 
       case "survivorselection":
-        return <MenuDialog
-          disabled={this.props.disabled}
-          options={this.props.options.survivorSelectors}
+        return <StepForm
           label="Add survivor selector"
           onClick={clickHandler(this.props.index, 'survivorSelectors')}
+          disabled={this.props.disabled}
+          options={this.props.options.survivorSelectors}
+          type="mutators"
+          values={this.props.config.survivorSelectors}
         />;
     }
   }
