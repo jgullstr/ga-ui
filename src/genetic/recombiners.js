@@ -90,11 +90,11 @@ const recombinators = {
           {
               name: "Points",
               description: "Amount of swaps.",
-              type: 'int'
+              type: 'uint'
           },
           {
               name: "Probability",
-              description: "Probability for a single mutation.",
+              description: "Probability for a single swap to occur.",
               type: 'float',
               range: [0,1]
           }
@@ -104,19 +104,7 @@ const recombinators = {
       name: "Uniform crossover",
       description: "Swap each allele between parents with 50% probability.",
       function: crossoverUniform,
-      params: [
-          {
-              name: "Points",
-              description: "Amount of swaps.",
-              type: 'int'
-          },
-          {
-              name: "Probability",
-              description: "Probability for a single mutation.",
-              type: 'float',
-              range: [0,1]
-          }
-      ]
+      params: []
   },
   THREE_PARENT_CROSSOVER: {
       name: "Three-parent crossover",
