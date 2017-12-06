@@ -23,36 +23,59 @@ const defaultConfig = () => ({
 });
 
 const InstancesConfiguration = (props) => {
+    // Clone instance.
+    const cloneInstance = (config) => props.addInstance(
+        JSON.parse(JSON.stringify({
+            ...config,
+            locked: false
+        }))
+    );
+
+    // Todo: Delete instance.
+    const deleteInstance = (index) => {
+        console.log('deleted ' + index);
+    }
+
+    const lockInstance = (e, index) => {
+        e.stopPropagation();
+        console.log('locked ' + index);
+    }
+    console.log(props);
+    
+    const LockButton = (index, locked) => <IconButton
+        style={{width: 40, height: 40, padding: 0}}
+        tooltip={locked ? "Unlock" : "Lock"}
+        iconClassName="material-icons"
+        onClick={(e) => lockInstance(e, index) }
+    >{locked ? "lock" : "lock_open"}</IconButton>
+
     return (
         <div className="container">
-        {props.instanceConfigurations.map((config, key) => {
+        {props.instanceConfigurations.map((config, index) => {
             return (
-                <div key={key} style={{marginBottom: 20}}>
+                <div key={index} style={{marginBottom: 20}}>
                     <Card initiallyExpanded={true}>
                         <CardHeader
-                            title={`Instance #${key}`}
+                            title={`Instance #${index}`}
+                            subtitle={config.locked ? "lock" : "Lock instance to compute."}
                             actAsExpander={true}
                             showExpandableButton={true}
+                            avatar={LockButton(index, config.locked)}
                         />
                         <Divider/>
                         <CardText style={{padding: 0}} expandable={true}>
-                            <InstanceConfiguration index={key} config={config} options={props.options} params={props.params}/>
+                            <InstanceConfiguration index={index} config={config} options={props.options} params={props.params}/>
                             <Divider/>
                             <CardActions>
                                 <IconButton
-                                    tooltip="Lock"
-                                    iconClassName="material-icons"
-                                    onClick={() => console.log('lock')}
-                                >lock</IconButton>
-                                <IconButton
                                     tooltip="Clone"
                                     iconClassName="material-icons"
-                                    onClick={() => props.addInstance(JSON.parse(JSON.stringify(config)))}
+                                    onClick={() => cloneInstance(config)}
                                 >filter_none</IconButton>
                                 <IconButton
                                     tooltip="Delete"
                                     iconClassName="material-icons"
-                                    onClick={() => console.log('delete')}
+                                    onClick={(event) => deleteInstance(index)}
                                 >delete_forever</IconButton>
                             </CardActions>
                         </CardText>
