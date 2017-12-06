@@ -31,7 +31,6 @@ const defaultConfig = {
 
 const store = createStoreWithData(defaultConfig);
 
-
 const App = (props) => {
     return (
       <MuiThemeProvider>
