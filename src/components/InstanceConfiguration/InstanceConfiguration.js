@@ -8,6 +8,7 @@ import FontIcon from 'material-ui/FontIcon';
 import MenuDialog from '../FormComponents/MenuDialog';
 
 import addInstanceFunction from '../../store/actions/addInstanceFunction';
+import setInstanceTab from '../../store/actions/setInstanceTab';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -69,86 +70,78 @@ const StepForm = (props) => {
   );
 }
 
-class InstanceConfiguration extends Component {
-  constructor(props, context) {
-    super(props, context);
-    this.state = {
-      value: "parentselection",
+const InstanceConfiguration = (props) => {
+    const labels = {
+      parentSelectors: "Add parent selector",
+      recombiners: "Add recombiner",
+      mutators: "Add mutator",
+      survivorSelectors: "Add survivor selector",
     }
-  }
 
-  getComponent() {
-    const addFunction = this.props.addInstanceFunction;
+    const selectedTab = props.config.hasOwnProperty('activeTab') ? props.config.activeTab : 'parentSelectors' //props.ui.selectedTab;
 
-    const clickHandler = (index, key) => (fn) => {
-      addFunction({
-        index: index,
-        key: key,
-        fn: fn
+    if(!labels.hasOwnProperty(selectedTab)) {
+      throw new RangeError('Undefined tab: ' + selectedTab);
+    }
+    
+    const clickHandler = (fn) => {
+      props.addInstanceFunction({
+        index: props.index,
+        key: selectedTab,
+        fn: fn,
+        ui: {
+          expanded: true 
+        }
       });
     }
 
-    const getForm = (label, key) => {
-      return <StepForm
-        label={label}
-        onClick={clickHandler(this.props.index, key)}
-        disabled={this.props.disabled}
-        options={this.props.options[key]}
-        type={key}
-        values={this.props.config[key]}
-      />;
-    }
+    const Tab = <StepForm
+      label={labels[selectedTab]}
+      onClick={clickHandler}
+      disabled={props.disabled}
+      options={props.options[selectedTab]}
+      type={selectedTab}
+      values={props.config[selectedTab]}
+    />;
 
-    switch (this.state.value) {
-      case 'parentselection':
-        return getForm('Add parent selector', 'parentSelectors');
+    const onChange = (event, value) => props.setInstanceTab({
+      index: props.index,
+      value: value
+    });
 
-      case 'recombination':
-        return getForm('Add recombiner', 'recombiners');
-
-      case 'mutation':
-        return getForm('Add mutator', 'mutators');
-
-      case 'survivorselection':
-        return getForm('Add survivor selector', 'survivorSelectors');
-
-    }
-  }
-
-  render() {
-    const onChange = (event, value) => this.setState.call(this, {value: value});
-    const ConfigTab = this.getComponent();
     return (
       <div className="container" style={{marginBottom: 1}}>
         <div style={style.leftCell}>
-          <Menu  value={this.state.value} listStyle={style.list} onChange={onChange}>
-              <MenuItem primaryText="Parent selection"  value="parentselection" rightIcon={<FontIcon className="material-icons">wc</FontIcon>} />
+          <Menu value={selectedTab} listStyle={style.list} onChange={onChange}>
+              <MenuItem primaryText="Parent selection"  value="parentSelectors" rightIcon={<FontIcon className="material-icons">wc</FontIcon>} />
               <MenuItem
                 primaryText="Recombination"
                 rightIcon={
                   <FontIcon className="material-icons">child_care</FontIcon>
                 }
-                value="recombination"
+                value="recombiners"
               />
-              <MenuItem primaryText="Mutation" value="mutation" rightIcon={<FontIcon className="material-icons">gesture</FontIcon>} />
-              <MenuItem primaryText="Survivor selection" value="survivorselection" rightIcon={<FontIcon className="material-icons">group</FontIcon>} />
+              <MenuItem primaryText="Mutation" value="mutators" rightIcon={<FontIcon className="material-icons">gesture</FontIcon>} />
+              <MenuItem primaryText="Survivor selection" value="survivorSelectors" rightIcon={<FontIcon className="material-icons">group</FontIcon>} />
           </Menu>
         </div>
-        
+
         <div style={style.rightCell}>
-          {ConfigTab}
+          {Tab}
         </div>
         <div style={style.clear}></div>
       </div>
     );
-  }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  
+});
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
       addInstanceFunction: addInstanceFunction,
+      setInstanceTab: setInstanceTab,
   }, dispatch);
 }
 

@@ -1,6 +1,8 @@
 import { registerAction } from './actionLibrary';
 
 const reducer = (state = {}, action) => {
+    console.log(state);
+    console.log(action);
     return state.map((config, index) => {
         if (index === action.payload.index) {
             return {
@@ -12,4 +14,4 @@ const reducer = (state = {}, action) => {
     });
 };
 
-export default registerAction('SET_INSTANCE_TAB', ['ui', 'instanceConfigurations']);
+export default registerAction('SET_INSTANCE_TAB', reducer, ['instanceConfigurations']);
