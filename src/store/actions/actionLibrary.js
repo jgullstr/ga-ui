@@ -1,7 +1,7 @@
 let actionLibrary = {}
 
-export const registerAction = (type, reducer) => {
-    actionLibrary[type] = reducer;
+export const registerAction = (type, reducer, basePath) => {
+    actionLibrary[type] = [reducer, basePath];
     return (payload) => ({
         type: type,
         payload: payload,
