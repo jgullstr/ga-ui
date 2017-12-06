@@ -64,6 +64,7 @@ class InstanceConfiguration extends Component {
 
   getComponent() {
     const addFunction = this.props.addInstanceFunction;
+
     const clickHandler = (index, key) => (fn) => {
       addFunction({
         index: index,
@@ -71,49 +72,33 @@ class InstanceConfiguration extends Component {
         fn: fn
       });
     }
+    const getForm = (label, key) => {
+      return <StepForm
+        label={label}
+        onClick={clickHandler(this.props.index, key)}
+        disabled={this.props.disabled}
+        options={this.props.options[key]}
+        type={key}
+        values={this.props.config[key]}
+      />;
+    }
+
     switch (this.state.value) {
       case "overview":
         return <h1>Overview</h1>;
 
-      case "parentselection":
-        return <StepForm
-          label="Add parent selector"
-          onClick={clickHandler(this.props.index, 'parentSelectors')}
-          disabled={this.props.disabled}
-          options={this.props.options.parentSelectors}
-          type="parentSelectors"
-          values={this.props.config.parentSelectors}
-        />;
+      case 'parentselection':
+        return getForm('Add parent selector', 'parentSelectors');
 
-      case "recombination":
-        return <StepForm
-          label="Add recombiner"
-          onClick={clickHandler(this.props.index, 'recombiners')}
-          disabled={this.props.disabled}
-          options={this.props.options.recombiners}
-          type="recombiners"
-          values={this.props.config.recombiners}
-        />;
+      case 'recombination':
+        return getForm('Add recombiner', 'recombiners');
 
-      case "mutation":
-        return <StepForm
-          label="Add mutator"
-          onClick={clickHandler(this.props.index, 'mutators')}
-          disabled={this.props.disabled}
-          options={this.props.options.mutators}
-          type="mutators"
-          values={this.props.config.mutators}
-        />;
+      case 'mutation':
+        return getForm('Add mutator', 'mutators');
 
-      case "survivorselection":
-        return <StepForm
-          label="Add survivor selector"
-          onClick={clickHandler(this.props.index, 'survivorSelectors')}
-          disabled={this.props.disabled}
-          options={this.props.options.survivorSelectors}
-          type="mutators"
-          values={this.props.config.survivorSelectors}
-        />;
+      case 'survivorselection':
+        return getForm('Add survivor selector', 'survivorSelectors');
+
     }
   }
 

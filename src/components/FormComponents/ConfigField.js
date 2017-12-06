@@ -8,31 +8,36 @@ const fieldColor = {
 }
 
 const ConfigField = (props) => {
-    const params = props.field;
-    console.log(props);
     let fieldConfig = {
-        floatingLabelText: params.name,
+        floatingLabelText: props.name,
         floatingLabelStyle: fieldColor,
-        errorText: params.description,
+        errorText: props.description,
         errorStyle: fieldColor
     }
-    if (params.hasOwnProperty('range')) {
-        [fieldConfig.min, fieldConfig.max] = params.range;
-    }
-
-    switch (params.type) {
+    switch (props.type) {
         case 'int':
             fieldConfig.type = "number";
             fieldConfig.step = 1;
             break;
+        case 'uint':
+            fieldConfig.type = "number";
+            fieldConfig.step = 1;
+            fieldConfig.min = 0;
+            break;
         case 'float':
-            const span = Math.abs(params.range[1] - params.range[0]);
+            const span = Math.abs(props.range[1] - props.range[0]);
             fieldConfig.step = Math.pow(10, span.toString().length - 1) / 100;
             fieldConfig.type = "number";
             break;
         case 'text':
             fieldConfig.multiline = true;
             break;
+    }
+    if (props.hasOwnProperty('range')) {
+        [fieldConfig.min, fieldConfig.max] = props.range;
+    }
+    if (props.hasOwnProperty('value')) {
+        fieldConfig.value = props.value;
     }
     return (
         <TextField {...fieldConfig}/>

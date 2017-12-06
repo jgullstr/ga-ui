@@ -6,6 +6,7 @@ import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import Divider from 'material-ui/Divider';
 
 import IconButton from 'material-ui/IconButton';
+import ConfigField from './ConfigField';
 
 const ConfigForm = (props) => {
     if(!genetic.hasOwnProperty(props.type)) {
@@ -35,7 +36,7 @@ const ConfigForm = (props) => {
                 children= {DeleteButton}
             />
             <CardText style={{padding: 0}} expandable={true}>
-                Hello
+                {fn.params.map((field, key) => <ConfigField {...field}/>)}
             </CardText>
         </Card>
     );
