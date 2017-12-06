@@ -27,15 +27,15 @@ const ConfigForm = (props) => {
     >delete_forever</IconButton>;
 
     return (
-        <Card initiallyExpanded={hasParams}>
+        <Card style={{margin: 10}} initiallyExpanded={hasParams}>
             <CardHeader
                 title={fn.name}
                 subtitle={fn.description}
                 actAsExpander={hasParams}
                 showExpandableButton={hasParams}
-                children= {DeleteButton}
+                avatar={DeleteButton}
             />
-            <CardText style={{padding: 0}} expandable={true}>
+            <CardText expandable={true}>
                 {fn.params.map((field, key) => <ConfigField {...field}/>)}
             </CardText>
         </Card>

@@ -13,6 +13,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ConfigForm from '../FormComponents/ConfigForm';
 
+import {SortableContainer, SortableElement, arrayMove} from 'react-sortable-hoc';
+
 const style = {
   leftCell: {
     display: 'table-cell',
@@ -38,12 +40,25 @@ const style = {
   },
 };
 
-const StepForm = (props) => {
+const SortableItem = SortableElement(({value}) =>
+  <li>{value}</li>
+);
+
+const SortableList = SortableContainer(({items}) => {
   return (
-    <div>
-      {props.values.map((value, key) =>
-        <ConfigForm key={key} type={props.type} value={value}/>
-      )}
+    <ul>
+      {items.map((value, index) => (
+        <SortableItem key={`item-${index}`} index={index} value={value} />
+      ))}
+    </ul>
+  );
+});
+
+const StepForm = (props) => {
+  const items = props.values.map((value, key) => <ConfigForm key={key} type={props.type} value={value}/>);
+  return (
+    <div style={{height: '100%', display: 'block'}}>
+      <SortableList items={items}/>
       <MenuDialog
         disabled={props.disabled}
         options={props.options}
@@ -51,7 +66,7 @@ const StepForm = (props) => {
         onClick={props.onClick}
       />
     </div>
-  )
+  );
 }
 
 class InstanceConfiguration extends Component {
@@ -72,6 +87,7 @@ class InstanceConfiguration extends Component {
         fn: fn
       });
     }
+
     const getForm = (label, key) => {
       return <StepForm
         label={label}

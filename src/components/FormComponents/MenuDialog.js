@@ -33,7 +33,7 @@ class MenuDialog extends React.Component {
     }
     return (
       <div>
-        <RaisedButton label={this.props.label} disabled={this.props.disabled} onClick={this.handleOpen} />
+        <RaisedButton style={{margin: 10}} label={this.props.label} disabled={this.props.disabled} onClick={this.handleOpen} />
         <Dialog
           title={this.props.label}
           modal={false}
