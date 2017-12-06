@@ -1,13 +1,7 @@
 import { registerAction } from './actionLibrary';
 
 const reducer = (state = {}, action) => {
-    return {
-        ...state,
-        instanceConfigurations: [
-            ...state.instanceConfigurations,
-            action.payload
-        ],
-    }
+    return [...state, action.payload];
 };
 
-export default registerAction('ADD_INSTANCE', reducer);
+export default registerAction('ADD_INSTANCE', reducer, ['instanceConfigurations']);
