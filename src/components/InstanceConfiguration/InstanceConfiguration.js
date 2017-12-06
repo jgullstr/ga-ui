@@ -73,7 +73,7 @@ class InstanceConfiguration extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      value: "overview",
+      value: "parentselection",
     }
   }
 
@@ -100,9 +100,6 @@ class InstanceConfiguration extends Component {
     }
 
     switch (this.state.value) {
-      case "overview":
-        return <h1>Overview</h1>;
-
       case 'parentselection':
         return getForm('Add parent selector', 'parentSelectors');
 
@@ -125,7 +122,6 @@ class InstanceConfiguration extends Component {
       <div className="container" style={{marginBottom: 1}}>
         <div style={style.leftCell}>
           <Menu  value={this.state.value} listStyle={style.list} onChange={onChange}>
-              <MenuItem primaryText="Overview"  value="overview" style={style.inactive} rightIcon={<FontIcon className="material-icons">visibility</FontIcon>} />
               <MenuItem primaryText="Parent selection"  value="parentselection" rightIcon={<FontIcon className="material-icons">wc</FontIcon>} />
               <MenuItem
                 primaryText="Recombination"
