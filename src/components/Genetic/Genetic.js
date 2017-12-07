@@ -64,6 +64,7 @@ class Genetic extends Component {
         if (typeof(this.global) === 'undefined') {
             const globalConfiguration = {
                 bitSize: 32,
+                populationSize: 30,
                 fn: Object.keys(this.options.functions)[0],
                 argRanges: this.functions[Object.keys(this.options.functions)[0]].defaultRanges,
                 evaluator: Object.keys(this.options.evaluators)[0],

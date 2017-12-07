@@ -9,6 +9,7 @@ import resetGlobal from '../../store/actions/resetGlobal';
 import RadioOptionField from '../FormComponents/Fields/RadioOptionField';
 import SelectOptionField from '../FormComponents/Fields/SelectOptionField';
 import SliderField from '../FormComponents/Fields/SliderField';
+import NumberField from '../FormComponents/Fields/NumberField';
 
 import RaisedButton from 'material-ui/RaisedButton';
 
@@ -28,7 +29,6 @@ const GlobalConfiguration = ({options, values, resetGlobal, initGlobal, setGloba
       onClick: initGlobal,
       primary: true
     };
-    console.log(options);
   return (
     <div>
         <p><i>The global configuration is common between all algorithm instances. <b>Changing these parameters will clear current progress.</b></i></p>
@@ -43,8 +43,16 @@ const GlobalConfiguration = ({options, values, resetGlobal, initGlobal, setGloba
           disabled={values.locked}
         />
         <span className="hint">Amount of bits for a single chromosome.</span><br /><br />
-
+        <NumberField
+          name="populationSize"
+          label="Population size"
+          value={values.populationSize}
+          onChange={setGlobalConfig}
+        />
+        <span className="hint">Amount of chromosomes in population.</span><br /><br />
         <br />
+        <br />
+
         <label>Function:</label><br /><br />
         <SelectOptionField
           name="fn"
