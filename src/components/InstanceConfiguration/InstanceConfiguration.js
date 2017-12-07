@@ -71,6 +71,7 @@ const StepForm = (props) => {
 }
 
 const InstanceConfiguration = (props) => {
+  console.log(props.params)
     const labels = {
       parentSelectors: "Add parent selector",
       recombiners: "Add recombiner",
@@ -88,10 +89,7 @@ const InstanceConfiguration = (props) => {
       props.addInstanceFunction({
         index: props.index,
         key: selectedTab,
-        fn: fn,
-        ui: {
-          expanded: true 
-        }
+        instance: {fn: fn, params: props.params[selectedTab][fn].map((fnparams) => fnparams.default)}
       });
     }
 

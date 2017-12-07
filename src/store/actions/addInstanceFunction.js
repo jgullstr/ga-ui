@@ -7,7 +7,7 @@ const reducer = (state = [], action) => {
                 ...config,
                 [action.payload.key]: [
                     ...config[action.payload.key],
-                    action.payload.fn
+                    action.payload.instance
                 ]
             }
         }

@@ -12,13 +12,12 @@ const ConfigForm = (props) => {
     if(!genetic.hasOwnProperty(props.type)) {
         throw new RangeError('Undefined function type: ' + props.type);
     }
-    if (!genetic[props.type].hasOwnProperty(props.value)) {
-        throw new RangeError('Undefined function: ' + props.value);
+    if (!genetic[props.type].hasOwnProperty(props.value.fn)) {
+        throw new RangeError('Undefined function: ' + props.value.fn);
     }
-    const fn = genetic[props.type][props.value];
+    const fn = genetic[props.type][props.value.fn];
+    const params = props.value.params;
     const hasParams = fn.params.length > 0;
-    console.log(fn);
-    console.log(props);
 
     const DeleteButton = <IconButton
         tooltip="Delete"
@@ -36,7 +35,7 @@ const ConfigForm = (props) => {
                 avatar={DeleteButton}
             />
             <CardText expandable={true}>
-                {fn.params.map((field, key) => <ConfigField {...field}/>)}
+                {fn.params.map((field, key) => <ConfigField key={key} {...field} value={params[key]}/>)}
             </CardText>
         </Card>
     );
