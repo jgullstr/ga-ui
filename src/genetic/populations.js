@@ -256,7 +256,8 @@ const populations = {
                 name: "Bit length",
                 description: "Amount of bits (1-32) in each chromosome.",
                 type: 'int',
-                range: [1,32]
+                range: [1,32],
+                default: 32
             }
         ]
     }

@@ -90,13 +90,15 @@ const recombinators = {
           {
               name: "Points",
               description: "Amount of swaps.",
-              type: 'uint'
+              type: 'uint',
+              default: 3
           },
           {
               name: "Probability",
               description: "Probability for a single swap to occur.",
               type: 'float',
-              range: [0,1]
+              range: [0,1],
+              default: 0.5
           }
       ]
   },

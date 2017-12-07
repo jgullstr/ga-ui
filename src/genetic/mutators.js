@@ -28,7 +28,8 @@ const mutators = {
                 name: "Probability",
                 description: "Probability for a single mutation.",
                 type: 'float',
-                range: [0,1]
+                range: [0,1],
+                default: 0.01
             }
         ]
     }
