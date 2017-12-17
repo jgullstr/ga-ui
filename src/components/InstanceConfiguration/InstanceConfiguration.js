@@ -16,6 +16,8 @@ import ConfigForm from '../FormComponents/ConfigForm';
 
 import {SortableContainer, SortableElement, arrayMove} from 'react-sortable-hoc';
 
+import {geneticOptions, geneticParams} from '../../genetic';
+
 const style = {
   leftCell: {
     display: 'table-cell',
@@ -71,7 +73,6 @@ const StepForm = (props) => {
 }
 
 const InstanceConfiguration = (props) => {
-  console.log(props.params)
     const labels = {
       parentSelectors: "Add parent selector",
       recombiners: "Add recombiner",
@@ -89,7 +90,7 @@ const InstanceConfiguration = (props) => {
       props.addInstanceFunction({
         index: props.index,
         key: selectedTab,
-        instance: {fn: fn, params: props.params[selectedTab][fn].map((fnparams) => fnparams.default)}
+        instance: {fn: fn, params: geneticParams[selectedTab][fn].map((fnparams) => fnparams.default)}
       });
     }
 
@@ -97,7 +98,7 @@ const InstanceConfiguration = (props) => {
       label={labels[selectedTab]}
       onClick={clickHandler}
       disabled={props.disabled}
-      options={props.options[selectedTab]}
+      options={geneticOptions[selectedTab]}
       type={selectedTab}
       values={props.config[selectedTab]}
     />;

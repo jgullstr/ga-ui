@@ -15,9 +15,10 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 import Divider from 'material-ui/Divider';
 
+import {geneticOptions} from '../../genetic';
 //import FunctionConfiguration from './FunctionConfiguration';
 
-const GlobalConfiguration = ({options, values, resetGlobal, initGlobal, setGlobalConfig}) => {
+const GlobalConfiguration = ({values, resetGlobal, initGlobal, setGlobalConfig}) => {
   const buttonArgs = values.locked ?
     {
       label: "Reset",
@@ -56,7 +57,7 @@ const GlobalConfiguration = ({options, values, resetGlobal, initGlobal, setGloba
         <label>Function:</label><br /><br />
         <SelectOptionField
           name="fn"
-          options={options.functions}
+          options={geneticOptions.functions}
           value={values.fn}
           onChange={setGlobalConfig}
           disabled={values.locked}
@@ -66,7 +67,7 @@ const GlobalConfiguration = ({options, values, resetGlobal, initGlobal, setGloba
         <label>Evaluator:</label><br /><br />
         <RadioOptionField
           name="evaluator"
-          options={options.evaluators}
+          options={geneticOptions.evaluators}
           value={values.evaluator}
           onChange={setGlobalConfig}
           disabled={values.locked}
@@ -79,7 +80,7 @@ const GlobalConfiguration = ({options, values, resetGlobal, initGlobal, setGloba
         <label>Initialize:</label><br /><br />
         <RadioOptionField
           name="initializer"
-          options={options.initializers}
+          options={geneticOptions.initializers}
           value={values.initializer}
           onChange={setGlobalConfig}
           disabled={values.locked}
