@@ -1,9 +1,8 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import actionLibrary from './actions/actionLibrary';
-import createSagaMiddleware from 'redux-saga'
 
-import logger from 'redux-logger'
-import helloSaga from './sagas/helloSaga'
+import logger from 'redux-logger';
+import geneticMiddleware from './middleware/geneticMiddleware';
 
 /**
  * Create a new state by traversing array of nodes and cloning objects/arrays
@@ -41,10 +40,8 @@ const traverseState = (state, action, reducer, nodes = false) => {
   return result;
 }
 
-const sagaMiddleware = createSagaMiddleware(helloSaga)
-
 let middleware = [
-  sagaMiddleware
+  geneticMiddleware
 ]
 
 const reducer = (state = {}, action) => {
@@ -76,6 +73,5 @@ export const createStoreWithData = (initialState) => {
     initialState,
     composedEnhancers
   );
-  sagaMiddleware.run(helloSaga);
   return store;
 }

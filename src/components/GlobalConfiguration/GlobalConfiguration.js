@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import setGlobalConfig from '../../store/actions/setGlobalConfig';
-import initGlobal from '../../store/actions/initGlobal';
+import geneticGlobalLock from '../../store/geneticActions/geneticGlobalLock';
 import resetGlobal from '../../store/actions/resetGlobal';
 
 import RadioOptionField from '../FormComponents/Fields/RadioOptionField';
@@ -18,7 +18,7 @@ import Divider from 'material-ui/Divider';
 import {geneticOptions} from '../../genetic';
 //import FunctionConfiguration from './FunctionConfiguration';
 
-const GlobalConfiguration = ({values, resetGlobal, initGlobal, setGlobalConfig}) => {
+const GlobalConfiguration = ({values, resetGlobal, geneticGlobalLock, setGlobalConfig}) => {
   const buttonArgs = values.locked ?
     {
       label: "Reset",
@@ -27,7 +27,7 @@ const GlobalConfiguration = ({values, resetGlobal, initGlobal, setGlobalConfig})
     }
     : {
       label: "Initialize",
-      onClick: initGlobal,
+      onClick: geneticGlobalLock,
       primary: true
     };
   return (
@@ -98,7 +98,7 @@ const mapStateToProps = (state) => ({
 });
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({setGlobalConfig: setGlobalConfig, initGlobal: initGlobal, resetGlobal: resetGlobal}, dispatch);
+  return bindActionCreators({setGlobalConfig: setGlobalConfig, geneticGlobalLock: geneticGlobalLock, resetGlobal: resetGlobal}, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(GlobalConfiguration);
