@@ -1,10 +1,7 @@
 import { registerAction } from './actionLibrary';
 
-const reducer = (state = {}, action) => {
-    return {
-        ...state,
-        generation: action.payload
-    }
+const reducer = (state = 0, action) => {
+    return action.payload;
 };
 
-export default registerAction('SET_GENERATION', reducer);
+export default registerAction('SET_GENERATION', reducer, ['generation']);

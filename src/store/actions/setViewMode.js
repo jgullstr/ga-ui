@@ -1,10 +1,7 @@
 import { registerAction } from './actionLibrary';
 
 const reducer = (state = {}, action) => {
-    return {
-        ...state,
-        viewMode: action.payload,
-    };
+    return action.payload
 };
 
-export default registerAction('SET_VIEW_MODE', reducer, ['ui']);
+export default registerAction('SET_VIEW_MODE', reducer, ['ui', 'viewMode']);

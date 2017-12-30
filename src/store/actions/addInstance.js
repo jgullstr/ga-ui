@@ -1,6 +1,6 @@
 import { registerAction } from './actionLibrary';
 
-const reducer = (state = {}, action) => {
+const reducer = (state = [], action) => {
     return [...state, action.payload];
 };
 

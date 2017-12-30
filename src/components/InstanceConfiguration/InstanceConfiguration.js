@@ -87,11 +87,10 @@ const InstanceConfiguration = (props) => {
     }
     
     const clickHandler = (fn) => {
-      props.addInstanceFunction({
-        index: props.index,
-        key: selectedTab,
-        instance: {fn: fn, params: geneticParams[selectedTab][fn].map((fnparams) => fnparams.default)}
-      });
+      props.addInstanceFunction(
+        {fn: fn, params: geneticParams[selectedTab][fn].map((fnparams) => fnparams.default)},
+        [props.index, selectedTab]
+      );
     }
 
     const Tab = <StepForm
@@ -104,9 +103,8 @@ const InstanceConfiguration = (props) => {
     />;
 
     const onChange = (event, value) => props.setInstanceTab({
-      index: props.index,
       value: value
-    });
+    }, [props.index, 'activeTab']);
 
     return (
       <div className="container" style={{marginBottom: 1}}>

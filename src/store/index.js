@@ -13,9 +13,14 @@ import geneticMiddleware from './middleware/geneticMiddleware';
  * 
  * @returns {Array} [Reference to last node in path in new state, New state object]
  */
-const traverseState = (state, action, reducer, nodes = false) => {
+const traverseState = (state, action, reducer, nodes = []) => {
+  // Action can define additional path.
+  if (action.hasOwnProperty('path')) {
+    nodes = [...nodes, ...action.path];
+  }
+  console.log(nodes);
   // Operate on entire state.
-  if (!nodes || nodes.length == 0) {
+  if (nodes.length == 0) {
     return reducer(state, action);
   }
 
