@@ -1,8 +1,6 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
 
-import {blue500} from 'material-ui/styles/colors';
-
 const fieldColor = {
     color: '#000'
 }
@@ -32,6 +30,8 @@ const ConfigField = (props) => {
         case 'text':
             fieldConfig.multiline = true;
             break;
+        default:
+            throw new TypeError(`Invalid field type "{$props.type}"`);
     }
     if (props.hasOwnProperty('range')) {
         [fieldConfig.min, fieldConfig.max] = props.range;

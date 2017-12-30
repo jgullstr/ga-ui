@@ -1,8 +1,6 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import SelectOptionField from './Fields/SelectOptionField';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 

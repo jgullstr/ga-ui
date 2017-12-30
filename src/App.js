@@ -8,13 +8,12 @@ import { Provider } from 'react-redux';
 import { createStoreWithData } from './store';
 import genetic, {geneticOptions} from './genetic';
 
-import Genetic from './components/Genetic/Genetic';
 import AppDrawer from './components/App/AppDrawer';
 import AppHeader from './components/App/AppHeader';
 import AppBody from './components/App/AppBody';
 import AppFooter from './components/App/AppFooter';
 import Progress from './components/App/Progress';
-console.log(genetic);
+
 /**
  * Default, empty configuration.
  */
@@ -26,10 +25,9 @@ const globalConfiguration = {
   evaluator: Object.keys(geneticOptions.evaluators)[0],
   initializer: Object.keys(geneticOptions.initializers)[0],
   locked: false,
-  rebuild: false,
 };
 
- const defaultConfig = {
+const defaultConfig = {
   // If locked, global configuration cannot be edited.
   ui: {
     displayDrawer: false,

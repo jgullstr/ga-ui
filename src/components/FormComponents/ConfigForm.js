@@ -2,8 +2,7 @@ import React from 'react';
 //import ConfigField from './ConfigField';
 
 import genetic from '../../genetic';
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
-import Divider from 'material-ui/Divider';
+import {Card, CardHeader, CardText} from 'material-ui/Card';
 
 import IconButton from 'material-ui/IconButton';
 import ConfigField from './ConfigField';

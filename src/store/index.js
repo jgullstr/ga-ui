@@ -18,9 +18,9 @@ const traverseState = (state, action, reducer, nodes = []) => {
   if (action.hasOwnProperty('path')) {
     nodes = [...nodes, ...action.path];
   }
-  console.log(nodes);
+
   // Operate on entire state.
-  if (nodes.length == 0) {
+  if (nodes.length === 0) {
     return reducer(state, action);
   }
 

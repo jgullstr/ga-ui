@@ -2,10 +2,9 @@ import React from 'react';
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
 import MenuItem from 'material-ui/MenuItem';
-import DropDownMenu from 'material-ui/DropDownMenu';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
+import {Toolbar, ToolbarGroup, ToolbarTitle} from 'material-ui/Toolbar';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -36,7 +35,7 @@ class AppFooter extends React.Component {
   }
 
   handleChange = (event, value) => {
-      this.setState({value: parseInt(value)});
+      this.setState({value: parseInt(value, 10)});
   };
 
   render() {

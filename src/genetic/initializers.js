@@ -1,5 +1,4 @@
 import {randomizeTypedArray} from './random';
-import {fullMasks} from './codecs';
 
 const randomInit = (populationSize) => {
     const result = new Int32Array(populationSize);

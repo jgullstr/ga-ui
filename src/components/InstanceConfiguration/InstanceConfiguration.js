@@ -1,8 +1,6 @@
-import React, {Component} from 'react';
-import Paper from 'material-ui/Paper';
+import React from 'react';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
-import Divider from 'material-ui/Divider';
 import FontIcon from 'material-ui/FontIcon';
 
 import MenuDialog from '../FormComponents/MenuDialog';
@@ -14,7 +12,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ConfigForm from '../FormComponents/ConfigForm';
 
-import {SortableContainer, SortableElement, arrayMove} from 'react-sortable-hoc';
+import {SortableContainer, SortableElement} from 'react-sortable-hoc';
 
 import {geneticOptions, geneticParams} from '../../genetic';
 
