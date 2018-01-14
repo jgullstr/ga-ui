@@ -12,7 +12,7 @@ const AppDrawer = ({open, toggleDrawer, options}) => {
     <Drawer
       docked={false}
       open={open}
-      onRequestChange={toggleDrawer}
+      onRequestChange={x => toggleDrawer()}
     >
       <div className="padded">
         <h2>Global configuration</h2>

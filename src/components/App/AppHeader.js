@@ -22,7 +22,7 @@ const AppHeader = ({toggleDrawer}) => {
         <AppBar
             title="Genetic algorithm evaluator"
             iconElementRight={<ViewModeToggler />}
-            onLeftIconButtonTouchTap={toggleDrawer}
+            onLeftIconButtonTouchTap={x => toggleDrawer()}
             style={styles.appbar}
         />
         </header>
