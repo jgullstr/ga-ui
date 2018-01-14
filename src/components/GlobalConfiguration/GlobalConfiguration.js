@@ -2,9 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import setGlobalConfig from '../../store/actions/setGlobalConfig';
+import {geneticOptions} from '../../genetic';
 import geneticGlobalLock from '../../store/geneticActions/geneticGlobalLock';
-import resetGlobal from '../../store/actions/resetGlobal';
+import geneticGlobalReset from '../../store/geneticActions/geneticGlobalReset';
+
+import setGlobalConfig from '../../store/actions/setGlobalConfig';
 
 import RadioOptionField from '../FormComponents/Fields/RadioOptionField';
 import SelectOptionField from '../FormComponents/Fields/SelectOptionField';
@@ -12,22 +14,20 @@ import SliderField from '../FormComponents/Fields/SliderField';
 import NumberField from '../FormComponents/Fields/NumberField';
 
 import RaisedButton from 'material-ui/RaisedButton';
-
 import Divider from 'material-ui/Divider';
 
-import {geneticOptions} from '../../genetic';
 //import FunctionConfiguration from './FunctionConfiguration';
 
-const GlobalConfiguration = ({values, resetGlobal, geneticGlobalLock, setGlobalConfig}) => {
+const GlobalConfiguration = ({values, geneticGlobalReset, geneticGlobalLock, setGlobalConfig}) => {
   const buttonArgs = values.locked ?
     {
       label: "Reset",
-      onClick: resetGlobal,
+      onClick: x => geneticGlobalReset(),
       secondary: true,
     }
     : {
       label: "Initialize",
-      onClick: geneticGlobalLock,
+      onClick: x => geneticGlobalLock(),
       primary: true
     };
   return (
@@ -98,7 +98,11 @@ const mapStateToProps = (state) => ({
 });
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({setGlobalConfig: setGlobalConfig, geneticGlobalLock: geneticGlobalLock, resetGlobal: resetGlobal}, dispatch);
+  return bindActionCreators({
+    setGlobalConfig: setGlobalConfig,
+    geneticGlobalLock: geneticGlobalLock,
+    geneticGlobalReset: geneticGlobalReset
+  }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(GlobalConfiguration);

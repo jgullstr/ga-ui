@@ -45,10 +45,6 @@ const traverseState = (state, action, reducer, nodes = []) => {
   return result;
 }
 
-let middleware = [
-  geneticMiddleware
-]
-
 const reducer = (state = {}, action) => {
   if (actionLibrary.hasOwnProperty(action.type)) {
     const [reducer, basePath] = actionLibrary[action.type];
@@ -57,26 +53,20 @@ const reducer = (state = {}, action) => {
   return state;
 }
 
-let enhancer = x => x;
+let middleware = [geneticMiddleware];
+
 if (process.env.NODE_ENV === 'development') {
   middleware.push(logger);
-  const devToolsExtension = window.devToolsExtension
-
+  const devToolsExtension = window.devToolsExtension;
   if (typeof devToolsExtension === 'function') {
-    enhancer = devToolsExtension()
+    middleware.push(devToolsExtension())
   }
 }
 
-const composedEnhancers = compose(
-  applyMiddleware(...middleware),
-  enhancer
-)
-
 export const createStoreWithData = (initialState) => {
-  const store = createStore(
+  return createStore(
     reducer,
     initialState,
-    composedEnhancers
+    applyMiddleware(...middleware)
   );
-  return store;
 }
