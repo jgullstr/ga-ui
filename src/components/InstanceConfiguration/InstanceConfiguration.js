@@ -7,6 +7,7 @@ import MenuDialog from '../FormComponents/MenuDialog';
 
 import addInstanceFunction from '../../store/actions/addInstanceFunction';
 import setInstanceTab from '../../store/actions/setInstanceTab';
+import orderInstanceFunctions from '../../store/actions/orderInstanceFunctions';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -59,7 +60,7 @@ const StepForm = (props) => {
   const items = props.values.map((value, key) => <ConfigForm key={key} type={props.type} value={value}/>);
   return (
     <div style={{height: '100%', display: 'block'}}>
-      <SortableList items={items}/>
+      <SortableList items={items} onSortEnd={(indices) => props.onSortEnd(indices, [props.index, props.type])}/>
       <MenuDialog
         disabled={props.disabled}
         options={props.options}
@@ -92,12 +93,14 @@ const InstanceConfiguration = (props) => {
     }
 
     const Tab = <StepForm
+      index={props.index}
       label={labels[selectedTab]}
       onClick={clickHandler}
       disabled={props.disabled}
       options={geneticOptions[selectedTab]}
       type={selectedTab}
       values={props.config[selectedTab]}
+      onSortEnd={props.orderInstanceFunctions}
     />;
 
     const onChange = (event, value) => props.setInstanceTab({
@@ -129,14 +132,13 @@ const InstanceConfiguration = (props) => {
     );
 }
 
-const mapStateToProps = (state) => ({
-  
-});
+const mapStateToProps = (state) => ({});
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
       addInstanceFunction: addInstanceFunction,
       setInstanceTab: setInstanceTab,
+      orderInstanceFunctions: orderInstanceFunctions,
   }, dispatch);
 }
 
