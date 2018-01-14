@@ -1,5 +1,5 @@
-import initGlobal from '../actions/initGlobal';
-import resetGlobal from '../actions/resetGlobal';
+import setGlobalLock from '../actions/setGlobalLock';
+import clearData from '../actions/clearData';
 
 const geneticMiddleware = store => next => action => {
     if (!action.type.startsWith("GENETIC")) {
@@ -9,10 +9,11 @@ const geneticMiddleware = store => next => action => {
     switch (action.type) {
         // Lock global configuration, initialize solver.
         case "GENETIC_GLOBAL_LOCK":
-            store.dispatch(initGlobal());
+            store.dispatch(setGlobalLock(true));
             break;
         // Clear all data.
         case "GENETIC_GLOBAL_RESET":
+            store.dispatch(setGlobalLock(false));
             break;
         // Lock instance, evolve to current generation.
         case "GENETIC_INSTANCE_LOCK":
