@@ -29,6 +29,13 @@ class MenuDialog extends React.Component {
       dialog.props.onClick(key);
       dialog.handleClose();
     }
+
+    const menuItems = Object.keys(this.props.options).map((key) => {
+      return (
+       <MenuItem key={key} primaryText={this.props.options[key]} onClick={onClick(key)}/>
+      )
+    });
+
     return (
       <div>
         <RaisedButton style={{margin: 10}} label={this.props.label} disabled={this.props.disabled} onClick={this.handleOpen} />
@@ -38,13 +45,7 @@ class MenuDialog extends React.Component {
           open={this.state.open}
           onRequestClose={this.handleClose}
         >
-        <Menu>
-        {Object.keys(this.props.options).map((key) => {
-           return (
-            <MenuItem key={key} primaryText={this.props.options[key]} onClick={onClick(key)}/>
-           )
-        })}
-        </Menu>
+        <Menu>{menuItems}</Menu>
         </Dialog>
       </div>
     );

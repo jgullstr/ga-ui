@@ -1,6 +1,11 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import updateConfigurationValue from '../../store/actions/updateConfigurationValue';
+
 const fieldColor = {
     color: '#000'
 }
@@ -39,12 +44,20 @@ const ConfigField = (props) => {
     if (props.hasOwnProperty('value')) {
         fieldConfig.value = props.value;
     }
-    if (props.hasOwnProperty('onChange')) {
-        fieldConfig.onChange = (event, value) => props.onChange(value);
+    if (props.hasOwnProperty('path')) {
+        fieldConfig.onChange = (event, value) => props.updateConfigurationValue(value, props.path);
     }
     return (
-        <TextField {...fieldConfig}/>
+        <TextField  {...fieldConfig}/>
     );
 }
 
-export default ConfigField;
+const mapStateToProps = (state) => ({});
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+      updateConfigurationValue: updateConfigurationValue,
+  }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ConfigField);

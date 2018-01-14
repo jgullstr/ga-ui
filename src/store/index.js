@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import actionLibrary from './actions/actionLibrary';
 
 import logger from 'redux-logger';

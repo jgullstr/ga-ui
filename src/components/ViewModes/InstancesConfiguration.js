@@ -22,6 +22,18 @@ const defaultConfig = () => ({
     expanded: true,
 });
 
+const lockInstance = (e, index) => {
+    e.stopPropagation();
+    console.log('locked ' + index);
+}
+
+const LockButton = (index, locked) => <IconButton
+    style={{width: 40, height: 40, padding: 0}}
+    tooltip={locked ? "Unlock" : "Lock"}
+    iconClassName="material-icons"
+    onClick={(e) => lockInstance(e, index) }
+>{locked ? "lock" : "lock_open"}</IconButton>
+
 const InstancesConfiguration = (props) => {
     // Clone instance.
     const cloneInstance = (config) => props.addInstance(
@@ -36,18 +48,7 @@ const InstancesConfiguration = (props) => {
         console.log('deleted ' + index);
     }
 
-    const lockInstance = (e, index) => {
-        e.stopPropagation();
-        console.log('locked ' + index);
-    }
-    console.log(props);
-    
-    const LockButton = (index, locked) => <IconButton
-        style={{width: 40, height: 40, padding: 0}}
-        tooltip={locked ? "Unlock" : "Lock"}
-        iconClassName="material-icons"
-        onClick={(e) => lockInstance(e, index) }
-    >{locked ? "lock" : "lock_open"}</IconButton>
+
 
     return (
         <div className="container">
@@ -64,7 +65,7 @@ const InstancesConfiguration = (props) => {
                         />
                         <Divider/>
                         <CardText style={{padding: 0}} expandable={true}>
-                            <InstanceConfiguration index={index} config={config}/>
+                            <InstanceConfiguration index={index}/>
                             <Divider/>
                             <CardActions>
                                 <IconButton

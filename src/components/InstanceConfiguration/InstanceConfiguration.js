@@ -8,13 +8,12 @@ import MenuDialog from '../FormComponents/MenuDialog';
 import addInstanceFunction from '../../store/actions/addInstanceFunction';
 import setInstanceTab from '../../store/actions/setInstanceTab';
 import orderInstanceFunctions from '../../store/actions/orderInstanceFunctions';
-import updateInstanceFunction from '../../store/actions/updateInstanceFunction';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ConfigForm from '../FormComponents/ConfigForm';
 
-import {SortableContainer, SortableElement} from 'react-sortable-hoc';
+import SortableList from '../FormComponents/SortableList';
 
 import {geneticOptions, geneticParams} from '../../genetic';
 
@@ -43,22 +42,8 @@ const style = {
   },
 };
 
-const SortableItem = SortableElement(({value}) =>
-  <li>{value}</li>
-);
-
-const SortableList = SortableContainer(({items}) => {
-  return (
-    <ul>
-      {items.map((value, index) => (
-        <SortableItem key={`item-${index}`} index={index} value={value} />
-      ))}
-    </ul>
-  );
-});
-
 const StepForm = (props) => {
-  const items = props.values.map((value, key) => <ConfigForm action={props.action} key={key} path={[props.index, props.type, key]} type={props.type} value={value}/>);
+  const items = props.values.map((value, key) => <ConfigForm key={key} path={['instanceConfigurations', props.index, props.type, key]} type={props.type} value={value}/>);
   return (
     <div style={{height: '100%', display: 'block'}}>
       <SortableList items={items} onSortEnd={(indices) => props.onSortEnd(indices, [props.index, props.type])}/>
@@ -73,6 +58,8 @@ const StepForm = (props) => {
 }
 
 const InstanceConfiguration = (props) => {
+
+    const config = props.instanceConfigurations[props.index];
     const labels = {
       parentSelectors: "Add parent selector",
       recombiners: "Add recombiner",
@@ -80,7 +67,7 @@ const InstanceConfiguration = (props) => {
       survivorSelectors: "Add survivor selector",
     }
 
-    const selectedTab = props.config.hasOwnProperty('activeTab') ? props.config.activeTab : 'parentSelectors' //props.ui.selectedTab;
+    const selectedTab = config.hasOwnProperty('activeTab') ? config.activeTab : 'parentSelectors' //props.ui.selectedTab;
 
     if(!labels.hasOwnProperty(selectedTab)) {
       throw new RangeError('Undefined tab: ' + selectedTab);
@@ -93,26 +80,14 @@ const InstanceConfiguration = (props) => {
       );
     }
 
-    const Tab = <StepForm
-      index={props.index}
-      label={labels[selectedTab]}
-      onClick={clickHandler}
-      disabled={props.disabled}
-      options={geneticOptions[selectedTab]}
-      type={selectedTab}
-      values={props.config[selectedTab]}
-      onSortEnd={props.orderInstanceFunctions}
-      action={props.updateInstanceFunction}
-    />;
-
     const onChange = (event, value) => props.setInstanceTab({
       value: value
     }, [props.index, 'activeTab']);
-
+    console.log('renmder')
     return (
       <div className="container" style={{marginBottom: 1}}>
         <div style={style.leftCell}>
-          <Menu value={selectedTab} listStyle={style.list} onChange={onChange}>
+          <Menu value={selectedTab} listStyle={style.list} onChange={onChange} disableAutoFocus={true}>
               <MenuItem primaryText="Parent selection"  value="parentSelectors" rightIcon={<FontIcon className="material-icons">wc</FontIcon>} />
               <MenuItem
                 primaryText="Recombination"
@@ -127,21 +102,32 @@ const InstanceConfiguration = (props) => {
         </div>
 
         <div style={style.rightCell}>
-          {Tab}
+          <StepForm
+            index={props.index}
+            label={labels[selectedTab]}
+            onClick={clickHandler}
+            disabled={props.disabled}
+            options={geneticOptions[selectedTab]}
+            type={selectedTab}
+            values={config[selectedTab]}
+            onSortEnd={props.orderInstanceFunctions}
+            action={props.updateInstanceFunction}
+          />
         </div>
         <div style={style.clear}></div>
       </div>
     );
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  instanceConfigurations: state.instanceConfigurations,
+});
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
       addInstanceFunction: addInstanceFunction,
       setInstanceTab: setInstanceTab,
       orderInstanceFunctions: orderInstanceFunctions,
-      updateInstanceFunction: updateInstanceFunction,
   }, dispatch);
 }
 

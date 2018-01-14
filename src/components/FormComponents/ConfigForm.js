@@ -24,7 +24,7 @@ const ConfigForm = (props) => {
         onClick={() => console.log('delete')}
     >delete_forever</IconButton>;
 
-    const onChange = (key) => (value) => props.action(value, [...props.path, 'params', key]);
+    const functionForm = fn.params.map((field, key) => <ConfigField key={key} {...field} value={params[key]} path={[...props.path, 'params', key]}/>);
     return (
         <Card style={{margin: 10}} initiallyExpanded={hasParams}>
             <CardHeader
@@ -35,7 +35,7 @@ const ConfigForm = (props) => {
                 avatar={DeleteButton}
             />
             <CardText expandable={true}>
-                {fn.params.map((field, key) => <ConfigField key={key} {...field} value={params[key]} onChange={onChange(key)}/>)}
+                {functionForm}
             </CardText>
         </Card>
     );

@@ -4,4 +4,4 @@ const reducer = (state, action) => {
     return action.payload;
 };
 
-export default registerAction('UPDATE_INSTANCE_FUNCTION', reducer, ['instanceConfigurations']);
+export default registerAction('UPDATE_CONFIGURATION_VALUE', reducer);
