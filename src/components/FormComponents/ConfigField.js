@@ -39,6 +39,9 @@ const ConfigField = (props) => {
     if (props.hasOwnProperty('value')) {
         fieldConfig.value = props.value;
     }
+    if (props.hasOwnProperty('onChange')) {
+        fieldConfig.onChange = (event, value) => props.onChange(value);
+    }
     return (
         <TextField {...fieldConfig}/>
     );

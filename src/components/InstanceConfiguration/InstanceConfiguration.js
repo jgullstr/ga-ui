@@ -8,6 +8,7 @@ import MenuDialog from '../FormComponents/MenuDialog';
 import addInstanceFunction from '../../store/actions/addInstanceFunction';
 import setInstanceTab from '../../store/actions/setInstanceTab';
 import orderInstanceFunctions from '../../store/actions/orderInstanceFunctions';
+import updateInstanceFunction from '../../store/actions/updateInstanceFunction';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -57,7 +58,7 @@ const SortableList = SortableContainer(({items}) => {
 });
 
 const StepForm = (props) => {
-  const items = props.values.map((value, key) => <ConfigForm key={key} type={props.type} value={value}/>);
+  const items = props.values.map((value, key) => <ConfigForm action={props.action} key={key} path={[props.index, props.type, key]} type={props.type} value={value}/>);
   return (
     <div style={{height: '100%', display: 'block'}}>
       <SortableList items={items} onSortEnd={(indices) => props.onSortEnd(indices, [props.index, props.type])}/>
@@ -101,6 +102,7 @@ const InstanceConfiguration = (props) => {
       type={selectedTab}
       values={props.config[selectedTab]}
       onSortEnd={props.orderInstanceFunctions}
+      action={props.updateInstanceFunction}
     />;
 
     const onChange = (event, value) => props.setInstanceTab({
@@ -139,6 +141,7 @@ function mapDispatchToProps(dispatch) {
       addInstanceFunction: addInstanceFunction,
       setInstanceTab: setInstanceTab,
       orderInstanceFunctions: orderInstanceFunctions,
+      updateInstanceFunction: updateInstanceFunction,
   }, dispatch);
 }
 

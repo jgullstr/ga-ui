@@ -7,7 +7,7 @@
  * @param {*} storeKey 
  */
 export const dispatchSetValue = (dispatch, storeKey) => (event, key, value) => {
-    // RadioButtonGroup's onChange signature is (event: object, value: undefined).
+    // RadioButtonGroup's onChange signature is (event, value).
     // Others' signature is (event, key, value).
     if (typeof(value) === 'undefined') {
       value = key;
