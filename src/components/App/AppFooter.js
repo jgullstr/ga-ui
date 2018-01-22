@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import setGeneration from '../../store/actions/setGeneration';
-
+import setGenerationsInput from '../../store/actions/setGenerationsInput';
 
 const styles = {
     toolbar: {
@@ -24,57 +24,45 @@ const styles = {
     }
 }
 
-
-class AppFooter extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: 3,
-    };
-  }
-
-  handleChange = (event, value) => {
-      this.setState({value: parseInt(value, 10)});
-  };
-
-  render() {
-    const handleChange = (event, value) => this.handleChange.call(this, event, value);
-    return (
-      <Toolbar style={styles.toolbar}>
-        <ToolbarGroup firstChild={true}>
-        <IconMenu
-            iconButtonElement={
-                <IconButton
-                    iconClassName="material-icons"
-                    iconStyle={{color: 'rgba(0, 0, 0, 0.4)'}}
-                >swap_vert</IconButton>
-            }
-          >
-            <MenuItem primaryText="Recalculate" />
-            <MenuItem primaryText="Reset" />
-            <MenuItem primaryText="Import configuration" />
-            <MenuItem primaryText="Export configuration" />
-            <MenuItem primaryText="Export data" />
-          </IconMenu>
-            <ToolbarTitle text={`Generation ${this.props.generation}`} />
-        </ToolbarGroup>
-        <ToolbarGroup>
-          <ToolbarTitle text="Generations" />
-          <TextField name="generation" onChange={handleChange} type="number" defaultValue={this.state.value} style={styles.generations} underlineStyle={{borderColor: 'rgba(0, 0, 0, 0.4)'}} step={1} size={2}/><br/>
-          <RaisedButton label="Evolve" primary={true} onClick={() => this.props.setGeneration(this.state.value + this.props.generation)}/>
-        </ToolbarGroup>
-      </Toolbar>
-    );
-  }
+const AppFooter = ({setGeneration, currentGeneration, setGenerationsInput, generations}) => {
+  return (
+    <Toolbar style={styles.toolbar}>
+      <ToolbarGroup firstChild={true}>
+      <IconMenu
+          iconButtonElement={
+              <IconButton
+                  iconClassName="material-icons"
+                  iconStyle={{color: 'rgba(0, 0, 0, 0.4)'}}
+              >swap_vert</IconButton>
+          }
+        >
+          <MenuItem primaryText="Recalculate" />
+          <MenuItem primaryText="Reset" />
+          <MenuItem primaryText="Import configuration" />
+          <MenuItem primaryText="Export configuration" />
+          <MenuItem primaryText="Export data" />
+        </IconMenu>
+          <ToolbarTitle text={`Generation ${currentGeneration}`} />
+      </ToolbarGroup>
+      <ToolbarGroup>
+        <ToolbarTitle text="Generations" />
+        <TextField name="generation" onChange={(event, value) => setGenerationsInput(value)} type="number" value={generations} style={styles.generations} underlineStyle={{borderColor: 'rgba(0, 0, 0, 0.4)'}} step={1} size={2}/><br/>
+        <RaisedButton label="Evolve" primary={true} onClick={() => setGeneration(parseInt(currentGeneration) + parseInt(generations))}/>
+      </ToolbarGroup>
+    </Toolbar>
+  );
 }
 
 const mapStateToProps = (state) => ({
-    generation: state.generation,
+    currentGeneration: state.currentGeneration,
+    generations: state.ui.generations,
 });
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({setGeneration: setGeneration}, dispatch);
+    return bindActionCreators({
+      setGeneration: setGeneration,
+      setGenerationsInput: setGenerationsInput,
+    }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppFooter);

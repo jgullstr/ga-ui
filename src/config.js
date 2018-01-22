@@ -18,9 +18,10 @@ const globalConfiguration = {
     ui: {
       displayDrawer: false,
       viewMode: 'InstancesConfiguration',
+      generations: 10,
     },
     globalConfiguration: globalConfiguration,
     instanceConfigurations: [],
-    generation: 0,
+    currentGeneration: 0,
     data: [],
   };
