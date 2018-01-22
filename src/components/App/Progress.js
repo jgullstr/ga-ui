@@ -4,16 +4,6 @@ import { connect } from 'react-redux';
 import LinearProgress from 'material-ui/LinearProgress';
 import Dialog from 'material-ui/Dialog';
 
-
-class Zombie extends React.Component {
-    shouldComponentUpdate(nextProps, nextState) {
-        return false;
-    }
-    render() {
-        return this.props.children;
-    }
-}
-
 const Progress = ({progress, children}) => {
     if (progress === null) {
         return children;
@@ -23,7 +13,7 @@ const Progress = ({progress, children}) => {
         <Dialog title={`Loading ${progress}%`} modal={true} open={true} >
             <LinearProgress mode="determinate" value={progress} />
         </Dialog>
-        <Zombie>{children}</Zombie>
+        {children}
       </React.Fragment>
     );
 }
