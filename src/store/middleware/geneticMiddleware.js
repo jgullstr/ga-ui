@@ -1,4 +1,6 @@
 import setGlobalLock from '../actions/setGlobalLock';
+import setGeneration from '../actions/setGeneration';
+import setProgress from '../actions/setProgress';
 import clearData from '../actions/clearData';
 
 const geneticMiddleware = store => next => action => {
@@ -26,6 +28,18 @@ const geneticMiddleware = store => next => action => {
             break;
         // Evolve all instances
         case "GENETIC_EVOLVE":
+            const state = store.getState();
+            const currentGeneration = state.currentGeneration;
+            const totalGenerations = parseInt(state.ui.generations)
+            let generations = totalGenerations;
+            const countdown = setInterval(function(){
+              store.dispatch(setProgress(Math.round((totalGenerations - generations) / totalGenerations * 100)));
+              if (--generations === 0) {
+                store.dispatch(setGeneration(currentGeneration + generations))
+                store.dispatch(setProgress(null));
+                clearInterval(countdown);
+              }
+            }, 50);
             break;
     }
 }
