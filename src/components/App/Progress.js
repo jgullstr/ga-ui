@@ -4,14 +4,27 @@ import { connect } from 'react-redux';
 import LinearProgress from 'material-ui/LinearProgress';
 import Dialog from 'material-ui/Dialog';
 
-const Progress = (props) => {
-    if (typeof(props.progress) === 'undefined') {
-        return props.children;
+
+class Zombie extends React.Component {
+    shouldComponentUpdate(nextProps, nextState) {
+        return false;
+    }
+    render() {
+        return this.props.children;
+    }
+}
+
+const Progress = ({progress, children}) => {
+    if (typeof(progress) === 'undefined') {
+        return children;
     }
     return (
-      <Dialog title={`Loading ${props.progress}%`} modal={true} open={true} >
-        <LinearProgress mode="determinate" value={props.progress} />
-      </Dialog>
+      <React.Fragment>
+        <Dialog title={`Loading ${progress}%`} modal={true} open={true} >
+            <LinearProgress mode="determinate" value={progress} />
+        </Dialog>
+        <Zombie>{children}</Zombie>
+      </React.Fragment>
     );
 }
 

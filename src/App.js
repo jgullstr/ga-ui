@@ -21,12 +21,12 @@ const App = (props) => {
     return (
       <MuiThemeProvider>
         <Provider store={store}>
-          <div>
+          <Progress>
             <AppHeader/>
             <AppDrawer/>
             <AppBody/>
             <AppFooter/>
-          </div>
+          </Progress>
         </Provider>
       </MuiThemeProvider>
     );
