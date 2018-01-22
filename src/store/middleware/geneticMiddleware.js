@@ -35,7 +35,7 @@ const geneticMiddleware = store => next => action => {
             const countdown = setInterval(function(){
               store.dispatch(setProgress(Math.round((totalGenerations - generations) / totalGenerations * 100)));
               if (--generations === 0) {
-                store.dispatch(setGeneration(currentGeneration + generations))
+                store.dispatch(setGeneration(currentGeneration + totalGenerations))
                 store.dispatch(setProgress(null));
                 clearInterval(countdown);
               }
