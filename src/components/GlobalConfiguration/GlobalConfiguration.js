@@ -62,7 +62,7 @@ const GlobalConfiguration = ({values, geneticGlobalReset, geneticGlobalLock, set
           onChange={setGlobalConfig}
           disabled={values.locked}
         />
-        <br /><span className="hint">Function to determine fitness.</span><br /><br />
+        <br /><span className="hint">Function to optimize.</span><br /><br />
         <br />
         <label>Evaluator:</label><br /><br />
         <RadioOptionField
