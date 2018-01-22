@@ -15,7 +15,7 @@ class Zombie extends React.Component {
 }
 
 const Progress = ({progress, children}) => {
-    if (typeof(progress) === 'undefined') {
+    if (progress === null) {
         return children;
     }
     return (
@@ -29,7 +29,7 @@ const Progress = ({progress, children}) => {
 }
 
 const mapStateToProps = (state) => ({
-    progress: state.progress,
+    progress: state.ui.progress,
 });
 
 export default connect(mapStateToProps)(Progress);

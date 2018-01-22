@@ -19,6 +19,7 @@ const globalConfiguration = {
       displayDrawer: false,
       viewMode: 'InstancesConfiguration',
       generations: 10,
+      progress: null,
     },
     globalConfiguration: globalConfiguration,
     instanceConfigurations: [],
