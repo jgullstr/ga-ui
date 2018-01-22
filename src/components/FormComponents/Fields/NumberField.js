@@ -1,5 +1,4 @@
 import React from 'react';
-import { dispatchSetValue } from './helpers';
 import TextField from 'material-ui/TextField';
 
 const fieldColor = {
@@ -10,7 +9,7 @@ const NumberField = ({name, label, onChange, value}) => {
     return (
         <div>
             <TextField
-                onChange={dispatchSetValue(onChange, name)}
+                onChange={(e,v) => onChange(v, [name])}
                 floatingLabelStyle={fieldColor}
                 errorStyle={fieldColor}
                 type="number"

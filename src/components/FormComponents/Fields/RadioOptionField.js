@@ -1,11 +1,10 @@
 import React from 'react';
-import { dispatchSetValue } from './helpers';
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 
 const RadioOptionField = ({name, value, options, disabled, onChange}) => {
     return (
       <div className="radios">
-        <RadioButtonGroup name={name} valueSelected={value} onChange={dispatchSetValue(onChange, name)}>
+        <RadioButtonGroup name={name} valueSelected={value} onChange={(e,v) => onChange(v, [name])}>
           {Object.keys(options).map((key) => 
             <RadioButton
               value={key}

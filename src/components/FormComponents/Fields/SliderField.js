@@ -1,5 +1,4 @@
 import React from 'react';
-import { dispatchSetValue } from './helpers';
 import Slider from 'material-ui/Slider';
 
 const SliderField = ({name, label, min, max, step, value, disabled, onChange}) => {
@@ -14,7 +13,7 @@ const SliderField = ({name, label, min, max, step, value, disabled, onChange}) =
           step={step}
           value={value}
           disabled={disabled}
-          onChange={dispatchSetValue(onChange, name)}
+          onChange={(e,v) => onChange(v, [name])}
         />
       </div>
     );
