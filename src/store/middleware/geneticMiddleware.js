@@ -53,7 +53,11 @@ const instanceClassFactory = (globalConfiguration) => {
         }
 
         getData() {
-            return this.population;
+            return {
+                bestSolution: this.population.bestSolution(),
+                averageFitness: this.population.averageFitness(),
+                executionTime: this.population.executionTime,
+            }
         }
     }
     return Instance;
@@ -85,6 +89,7 @@ const geneticMiddleware = store => next => action => {
         case "GENETIC_INSTANCE_TOGGLE_LOCK":
             const config = state.instanceConfigurations[action.payload.index];
             instances.push(new Instance(config));
+            console.log(instances[0].getData());
             instances[0].evolve();
             console.log(instances[0].getData());
             store.dispatch(updateInstance({locked: action.payload.locked}, [action.payload.index]))
