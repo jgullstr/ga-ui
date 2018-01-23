@@ -9,7 +9,8 @@ import { bindActionCreators } from 'redux';
 
 import addInstance from '../../store/actions/addInstance';
 import updateInstance from '../../store/actions/updateInstance';
-import deleteInstance from '../../store/actions/deleteInstance';
+import geneticInstanceSetLock from '../../store/geneticActions/geneticInstanceSetLock';
+import geneticInstanceDelete from '../../store/geneticActions/geneticInstanceDelete';
 
 // Default new configuration.
 const defaultConfig = () => ({
@@ -18,21 +19,8 @@ const defaultConfig = () => ({
     mutators: [],
     survivorSelectors: [],
     locked: false,
-    rebuild: false,
     expanded: true,
 });
-
-const lockInstance = (e, index) => {
-    e.stopPropagation();
-    console.log('locked ' + index);
-}
-
-const LockButton = (index, locked) => <IconButton
-    style={{width: 40, height: 40, padding: 0}}
-    tooltip={locked ? "Unlock" : "Lock"}
-    iconClassName="material-icons"
-    onClick={(e) => lockInstance(e, index) }
->{locked ? "lock" : "lock_open"}</IconButton>
 
 const InstancesConfiguration = (props) => {
     // Clone instance.
@@ -43,12 +31,12 @@ const InstancesConfiguration = (props) => {
         }))
     );
 
-    // Todo: Delete instance.
-    const deleteInstance = (index) => {
-        console.log('deleted ' + index);
-    }
-
-
+    const LockButton = (index, locked) => <IconButton
+        style={{width: 40, height: 40, padding: 0}}
+        tooltip={locked ? "Unlock" : "Lock"}
+        iconClassName="material-icons"
+        onClick={(e) => { e.stopPropagation(); props.geneticInstanceSetLock(index, !locked) }}
+    >{locked ? "lock" : "lock_open"}</IconButton>
 
     return (
         <div className="container">
@@ -58,7 +46,7 @@ const InstancesConfiguration = (props) => {
                     <Card initiallyExpanded={true}>
                         <CardHeader
                             title={`Instance #${index}`}
-                            subtitle={config.locked ? "lock" : "Lock instance to compute."}
+                            subtitle={config.locked ? "Locked" : "Lock instance to compute."}
                             actAsExpander={true}
                             showExpandableButton={true}
                             avatar={LockButton(index, config.locked)}
@@ -76,7 +64,7 @@ const InstancesConfiguration = (props) => {
                                 <IconButton
                                     tooltip="Delete"
                                     iconClassName="material-icons"
-                                    onClick={(event) => deleteInstance(index)}
+                                    onClick={(event) => props.geneticInstanceDelete(index)}
                                 >delete_forever</IconButton>
                             </CardActions>
                         </CardText>
@@ -101,7 +89,8 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         addInstance: addInstance,
         updateInstance: updateInstance,
-        deleteInstance: deleteInstance
+        geneticInstanceDelete: geneticInstanceDelete,
+        geneticInstanceSetLock: geneticInstanceSetLock
     }, dispatch);
 }
 
