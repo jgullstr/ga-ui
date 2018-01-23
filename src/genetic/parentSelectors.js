@@ -9,7 +9,7 @@ import {randomReal} from './random';
  * @param  {Population} population
  * @return {Population} Fitness-biased population for recombination.
  */
-export const rouletteWheel = population => {
+export const rouletteWheel = bitSize => () => population => {
     let totalFitness = population.totalFitness();
     let fitnessValues = population.fitnesses();
     

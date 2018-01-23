@@ -23,7 +23,7 @@ const crossover = (value1, value2, pos) => {
  * @param {Integer} bitSize Amount of bits in value.
  * @returns {Function}
  */
-export const crossoverNPoints = bitSize => n => p => {
+export const crossoverNPoints = bitSize => (n, p) => {
   return (value1, value2) => {
     let pointsLeft = n;
     while (pointsLeft--) {
@@ -41,7 +41,7 @@ export const crossoverNPoints = bitSize => n => p => {
  * @param {Integer} bitSize Amount of bits in value.
  * @returns {Function}
  */
-export const crossoverSinglePoint = (bitSize) => crossoverNPoints(bitSize)(1);
+export const crossoverSinglePoint = (bitSize) => p => crossoverNPoints(bitSize)(1, p);
 
 /**
  * Uniform crossover.
@@ -51,7 +51,7 @@ export const crossoverSinglePoint = (bitSize) => crossoverNPoints(bitSize)(1);
  * @param {Integer} bitSize Amount of bits in value.
  * @returns {Function}
  */
-export const crossoverUniform = (bitSize) => (v1, v2, mask = fullMasks[bitSize - 1]) => {
+export const crossoverUniform = (bitSize) => () => (v1, v2, mask = fullMasks[bitSize - 1]) => {
   while (mask) {
     if (randomBoolean(0.5)) {
       v1 = (v1 & ~mask) | (v2 & mask);
@@ -66,7 +66,7 @@ export const crossoverUniform = (bitSize) => (v1, v2, mask = fullMasks[bitSize -
  * Unchristian three-parent crossover.
  * Create 3 children from 3 parents.
  */
-export const menageATrois = (bitSize) => {
+export const menageATrois = (bitSize) => () => {
   const fn = crossoverUniform(bitSize);
   return (v1,v2,v3) => [
     fn(v1 & v2, v3)[0],
