@@ -38,9 +38,7 @@ export class bin32Population {
             this.size = init.length;
         }
         else if (typeof init === 'function') {
-            // Initialize values in-place.
-            this._values = new Int32Array(size);
-            init(this._values);
+            this._values = init(size);
         }
         else {
             throw new TypeError(`init is of unknown type.`);
@@ -133,6 +131,7 @@ export class bin32Population {
      */
     fromArray(array) {
         if (array.length !== this.size) {
+            console.log(array);
             throw new RangeError(`Array needs to contain ${this.size} values.`);
         }
         if (array instanceof Int32Array) {

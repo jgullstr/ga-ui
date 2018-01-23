@@ -24,7 +24,8 @@ export const evolve = (selectParents) => (recombine) => (mutate) => (selectSurvi
         // skip recombination and add parents to preserve population size.
         return [...values, ...chunk];  
       }
-      return [...values, ...recombine.apply(context, chunk)];
+      const recombined = recombine.apply(context, chunk);
+      return chunk.length === 1 ? [...values, recombined] : [...values, ...recombined];
     }, []);
     const children = parents.fromArray(childValues);
     context.children = children;
@@ -37,7 +38,7 @@ export const evolve = (selectParents) => (recombine) => (mutate) => (selectSurvi
     const result = selectSurvivors.call(context, mutants);
 
     // Execution time is saved as a property on the evolved population.
-    const executionTime = performance.time() - initTime;
+    const executionTime = performance.now() - initTime;
     result.executionTime = executionTime;
     
     return result;

@@ -13,8 +13,9 @@ const globalRandomInit = (populationSize) => {
         var newArray = new Int32Array(populationSize);
         newArray.set(globalRandoms);
         newArray.set(randomInit(populationSize - globalRandoms.length), globalRandoms.length);
+        globalRandoms = newArray;
     }
-    return globalRandoms.slice(populationSize);
+    return globalRandoms.slice(0, populationSize);
 }
 
 const initializers = {

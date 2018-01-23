@@ -23,8 +23,8 @@ const compose = (funcs) => {
     return funcs.reduce((a, b) => (...args) => b(a(...args)));
 }
 
-const composeStage = (bitSize) => (config) => {
-    return compose(config.map(partial => partial.fn(bitSize)(...partial.params)));
+const composeStage = (bitSize) => (stage, config) => {
+    return compose(config[stage].map(partial => genetic[stage][partial.fn].fn(bitSize)(...partial.params)));
 }
 
 const instanceClassFactory = (globalConfiguration) => {
@@ -32,7 +32,7 @@ const instanceClassFactory = (globalConfiguration) => {
     // Global configuration is common between instances.
     const fn = genetic.functions[globalConfiguration.fn].fn;
     const codec = new genetic.codecs.BIN32.class(globalConfiguration.argRanges, null, globalConfiguration.bitSize); // Only binary codec supported atm.
-    const evaluator = genetic.evaluators[globalConfiguration.evaluator];
+    const evaluator = genetic.evaluators[globalConfiguration.evaluator].fn;
     const initializer = genetic.initializers[globalConfiguration.initializer].fn;
     const populationSize = globalConfiguration.populationSize;
     const composer = composeStage(globalConfiguration.bitSize);
@@ -43,10 +43,10 @@ const instanceClassFactory = (globalConfiguration) => {
             this.population = new bin32Population(populationSize, fn, codec, evaluator, initializer);
             this.generation = 0;
 
-            const recombine = composer(instanceConfiguration.recombiners);
-            const mutate = composer(instanceConfiguration.mutators);
-            const selectSurvivors = composer(instanceConfiguration.survivorSelectors);
-            const selectParents = composer(instanceConfiguration.parentSelectors);
+            const recombine = composer('recombiners', instanceConfiguration);
+            const mutate = composer('mutators', instanceConfiguration);
+            const selectSurvivors = composer('survivorSelectors', instanceConfiguration);
+            const selectParents = composer('parentSelectors', instanceConfiguration);
 
             const evolver = evolve(selectParents)(recombine)(mutate)(selectSurvivors);
             this.evolve = () => { this.population = evolver(this.population) };
@@ -85,6 +85,8 @@ const geneticMiddleware = store => next => action => {
         case "GENETIC_INSTANCE_TOGGLE_LOCK":
             const config = state.instanceConfigurations[action.payload.index];
             instances.push(new Instance(config));
+            instances[0].evolve();
+            console.log(instances[0].getData());
             store.dispatch(updateInstance({locked: action.payload.locked}, [action.payload.index]))
             break;
         // Clear instance data.
