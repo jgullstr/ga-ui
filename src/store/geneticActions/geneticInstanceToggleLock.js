@@ -1,5 +1,5 @@
 
-const geneticInstanceSetLock = (index, locked) => {
+const geneticInstanceToggleLock = (index, locked) => {
     return {
         type: "GENETIC_INSTANCE_TOGGLE_LOCK",
         payload: {
@@ -9,4 +9,4 @@ const geneticInstanceSetLock = (index, locked) => {
     }
 }
 
-export default geneticInstanceSetLock;
+export default geneticInstanceToggleLock;

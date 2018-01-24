@@ -9,7 +9,7 @@ import { bindActionCreators } from 'redux';
 
 import addInstance from '../../store/actions/addInstance';
 import updateInstance from '../../store/actions/updateInstance';
-import geneticInstanceSetLock from '../../store/geneticActions/geneticInstanceSetLock';
+import geneticInstanceToggleLock from '../../store/geneticActions/geneticInstanceToggleLock';
 import geneticInstanceDelete from '../../store/geneticActions/geneticInstanceDelete';
 
 // Default new configuration.
@@ -35,7 +35,7 @@ const InstancesConfiguration = (props) => {
         style={{width: 40, height: 40, padding: 0}}
         tooltip={locked ? "Unlock" : "Lock"}
         iconClassName="material-icons"
-        onClick={(e) => { e.stopPropagation(); props.geneticInstanceSetLock(index, !locked) }}
+        onClick={(e) => { e.stopPropagation(); props.geneticInstanceToggleLock(index, !locked) }}
     >{locked ? "lock" : "lock_open"}</IconButton>
 
     return (
@@ -90,7 +90,7 @@ function mapDispatchToProps(dispatch) {
         addInstance: addInstance,
         updateInstance: updateInstance,
         geneticInstanceDelete: geneticInstanceDelete,
-        geneticInstanceSetLock: geneticInstanceSetLock
+        geneticInstanceToggleLock: geneticInstanceToggleLock
     }, dispatch);
 }
 
