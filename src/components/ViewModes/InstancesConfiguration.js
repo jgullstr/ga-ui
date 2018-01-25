@@ -7,10 +7,10 @@ import InstanceConfiguration from '../InstanceConfiguration/InstanceConfiguratio
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import addInstance from '../../store/actions/addInstance';
 import updateInstance from '../../store/actions/updateInstance';
 import geneticInstanceToggleLock from '../../store/geneticActions/geneticInstanceToggleLock';
 import geneticInstanceDelete from '../../store/geneticActions/geneticInstanceDelete';
+import geneticInstanceAdd from '../../store/geneticActions/geneticInstanceAdd';
 
 // Default new configuration.
 const defaultConfig = () => ({
@@ -24,7 +24,7 @@ const defaultConfig = () => ({
 
 const InstancesConfiguration = (props) => {
     // Clone instance.
-    const cloneInstance = (config) => props.addInstance(
+    const cloneInstance = (config) => props.geneticInstanceAdd(
         JSON.parse(JSON.stringify({
             ...config,
             locked: false
@@ -75,7 +75,7 @@ const InstancesConfiguration = (props) => {
         <IconButton
             tooltip="Add new instance"
             iconClassName="material-icons"
-            onClick={() => props.addInstance(defaultConfig())}
+            onClick={() => props.geneticInstanceAdd(defaultConfig())}
         >add_circle</IconButton>
         </div>
     );
@@ -87,8 +87,8 @@ const mapStateToProps = (state) => ({
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-        addInstance: addInstance,
         updateInstance: updateInstance,
+        geneticInstanceAdd: geneticInstanceAdd,
         geneticInstanceDelete: geneticInstanceDelete,
         geneticInstanceToggleLock: geneticInstanceToggleLock
     }, dispatch);

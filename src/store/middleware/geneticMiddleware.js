@@ -4,6 +4,7 @@ import { bin32Population } from '../../genetic/populations';
 
 import setGlobalLock from '../actions/setGlobalLock';
 import setGeneration from '../actions/setGeneration';
+import addInstance from '../actions/addInstance';
 import updateInstance from '../actions/updateInstance';
 import deleteInstance from '../actions/deleteInstance';
 import setInstanceData from '../actions/setInstanceData';
@@ -92,6 +93,16 @@ const geneticMiddleware = store => next => action => {
             store.dispatch(setGlobalLock(false));
             break;
         // Lock instance, evolve to current generation.
+        case "GENETIC_INSTANCE_ADD":
+            store.dispatch(addInstance(action.payload));
+            store.dispatch(setInstanceData([], [state.data.length]));
+            instances.push([]);
+            break;
+        // Delete instance.
+        case "GENETIC_INSTANCE_DELETE":
+            instances.filter((v, i) => i !== action.payload);
+            store.dispatch(deleteInstance(action.payload));
+            break;
         case "GENETIC_INSTANCE_TOGGLE_LOCK":
             const config = state.instanceConfigurations[action.payload.index];
             const locked = action.payload.locked;
@@ -104,21 +115,23 @@ const geneticMiddleware = store => next => action => {
                 // Bring instance up to current generation.
                 let generation = parseInt(state.currentGeneration);
                 data.push(instance.getData());
+                let counter = 0;
+                const step = Math.ceil(generation / 100);
                 while (generation--) {
                     instance.evolve();
                     data.push(instance.getData());
+                    if (counter++ === step) {
+                        counter = 0;
+                        store.dispatch(setProgress(Math.round((state.currentGeneration - generation)/ state.currentGeneration * 100)));
+                    }
                 }
+                store.dispatch(setProgress(null));
             }
             else {
                 instances[index] = false;
             }
             store.dispatch(setInstanceData(data, [index]));
             store.dispatch(updateInstance({locked: locked}, [action.payload.index]));
-            break;
-        // Delete instance.
-        case "GENETIC_INSTANCE_DELETE":
-            instances.filter((v, i) => i !== action.payload);
-            store.dispatch(deleteInstance(action.payload));
             break;
         // Evolve all instances.
         case "GENETIC_EVOLVE":
