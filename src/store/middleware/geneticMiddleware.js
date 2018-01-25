@@ -96,7 +96,7 @@ const geneticMiddleware = store => next => action => {
         case "GENETIC_INSTANCE_ADD":
             store.dispatch(addInstance(action.payload));
             store.dispatch(setInstanceData([], [state.data.length]));
-            instances.push([]);
+            instances.push(false);
             break;
         // Delete instance.
         case "GENETIC_INSTANCE_DELETE":
@@ -142,21 +142,30 @@ const geneticMiddleware = store => next => action => {
             const step = Math.ceil(generations / 100);
             const finalGeneration = parseInt(state.currentGeneration) + generations;
 
-            let result = [];
             let current = 0;
             let counter = 0;
 
-            while (current++ < generations) {
+            const execute = (lockedInstances, result) => {
                 if (counter++ === step) {
                     counter = 0;
                     store.dispatch(setProgress(Math.round(current / generations * 100)));
                 }
                 // Evolve all locked instances.
+                lockedInstances.map((instance, index) => {
+                    instance.evolve();
+                    result[index].push(instance.getData());
+                });
+                if (++current < generations) {
+                    setTimeout(execute, 10, lockedInstances, result);
+                }
+                else {
+                    // Update state and clear progress.
+                    store.dispatch(setGeneration(finalGeneration));
+                    store.dispatch(setInstanceData(result));
+                    store.dispatch(setProgress(null));
+                }
             }
-
-            // Update state and clear progress.
-            store.dispatch(setGeneration(finalGeneration))
-            store.dispatch(setProgress(null));
+            execute(instances.filter(x => x !== false), state.data.slice())
     }
 }
 
