@@ -7,12 +7,12 @@ import GlobalConfiguration from '../GlobalConfiguration/GlobalConfiguration';
 
 import toggleDrawer from '../../store/actions/toggleDrawer';
 
-const AppDrawer = ({open, toggleDrawer, options}) => {
+const AppDrawer = ({open, toggleDrawer, options, locked}) => {
   return (
     <Drawer
       docked={false}
-      open={open}
-      onRequestChange={x => toggleDrawer()}
+      open={open || !locked}
+      onRequestChange={x => locked ? toggleDrawer() : null}
     >
       <div className="padded">
         <h2>Global configuration</h2>
@@ -25,7 +25,8 @@ const AppDrawer = ({open, toggleDrawer, options}) => {
 }
 
 const mapStateToProps = (state) => ({
-    open: state.ui.displayDrawer,
+    open: state.ui.displayDrawer || !state.globalConfiguration.locked,
+    locked: state.globalConfiguration.locked,
 });
 
 function mapDispatchToProps(dispatch) {

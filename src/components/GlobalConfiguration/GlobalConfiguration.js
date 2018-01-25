@@ -15,10 +15,11 @@ import NumberField from '../FormComponents/Fields/NumberField';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
+import toggleDrawer from '../../store/actions/toggleDrawer';
 
 //import FunctionConfiguration from './FunctionConfiguration';
 
-const GlobalConfiguration = ({values, geneticGlobalReset, geneticGlobalLock, setGlobalConfig}) => {
+const GlobalConfiguration = ({values, geneticGlobalReset, geneticGlobalLock, setGlobalConfig, toggleDrawer}) => {
   const buttonArgs = values.locked ?
     {
       label: "Reset",
@@ -27,7 +28,10 @@ const GlobalConfiguration = ({values, geneticGlobalReset, geneticGlobalLock, set
     }
     : {
       label: "Initialize",
-      onClick: x => geneticGlobalLock(),
+      onClick: x => {
+        geneticGlobalLock();
+        toggleDrawer(false);
+      },
       primary: true
     };
   return (
@@ -101,7 +105,8 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     setGlobalConfig: setGlobalConfig,
     geneticGlobalLock: geneticGlobalLock,
-    geneticGlobalReset: geneticGlobalReset
+    geneticGlobalReset: geneticGlobalReset,
+    toggleDrawer: toggleDrawer
   }, dispatch);
 }
 
