@@ -77,6 +77,36 @@ const geneticMiddleware = store => next => action => {
 
     const state = store.getState();
 
+    // Evolve instances. Using timeout to not freeze ui and update progress.
+    const execute = (instanceKeys, generations, current = 0, step = false, counter = 0, result = false) => {
+        if (!step) {
+            // How many generations needed for one percent progress increment.
+            step = Math.ceil(generations / 100);
+        }
+        if (!result) {
+            // Todo: Slice 2 dimensions.
+            result = store.getState().data.slice();
+        }
+        if (counter++ === step) {
+            counter = 0;
+            store.dispatch(setProgress(Math.round(current / generations * 100)));
+        }
+        // Evolve all locked instances.
+        instanceKeys.map((index) => {
+            instances[index].evolve();
+            result[index].push(instances[index].getData());
+        });
+
+        if (++current < generations) {
+            setTimeout(execute, 10, instanceKeys, generations, current, step, counter, result);
+        }
+        else {
+            // Update state and clear progress.
+            store.dispatch(setInstanceData(result));
+            store.dispatch(setProgress(null));
+        }
+    }
+
     switch (action.type) {
         // Lock global configuration, initialize solver.
         case "GENETIC_GLOBAL_LOCK":
@@ -107,30 +137,25 @@ const geneticMiddleware = store => next => action => {
             const config = state.instanceConfigurations[action.payload.index];
             const locked = action.payload.locked;
             const index = action.payload.index;
-            const data = [];
 
             if (locked) {
                 const instance = new Instance(config);
                 instances[index] = instance;
+                // Add initial data to store.
+                store.dispatch(setInstanceData([instances[index].getData()], [index]));
+
                 // Bring instance up to current generation.
-                let generation = parseInt(state.currentGeneration);
-                data.push(instance.getData());
-                let counter = 0;
-                const step = Math.ceil(generation / 100);
-                while (generation--) {
-                    instance.evolve();
-                    data.push(instance.getData());
-                    if (counter++ === step) {
-                        counter = 0;
-                        store.dispatch(setProgress(Math.round((state.currentGeneration - generation)/ state.currentGeneration * 100)));
-                    }
+                const generations = parseInt(state.currentGeneration);
+                if (generations > 0) {
+                    execute([index], generations);
                 }
-                store.dispatch(setProgress(null));
             }
             else {
+                // Unlock --> clear instance data.
                 instances[index] = false;
+                store.dispatch(setInstanceData([], [index]));
             }
-            store.dispatch(setInstanceData(data, [index]));
+            // Toggle lock.
             store.dispatch(updateInstance({locked: locked}, [action.payload.index]));
             break;
         // Evolve all instances.
@@ -138,34 +163,14 @@ const geneticMiddleware = store => next => action => {
             // How many generations to evolve.
             const generations = parseInt(state.ui.generations);
 
-            // How many generations needed for one percent progress increment.
-            const step = Math.ceil(generations / 100);
+            const keys = instances.reduce((result, instance, index) => {
+                return instance ? [...result, index] : result;
+            }, []);
+
+            // Update current generation.
+            execute(keys, generations);
             const finalGeneration = parseInt(state.currentGeneration) + generations;
-
-            let current = 0;
-            let counter = 0;
-
-            const execute = (lockedInstances, result) => {
-                if (counter++ === step) {
-                    counter = 0;
-                    store.dispatch(setProgress(Math.round(current / generations * 100)));
-                }
-                // Evolve all locked instances.
-                lockedInstances.map((instance, index) => {
-                    instance.evolve();
-                    result[index].push(instance.getData());
-                });
-                if (++current < generations) {
-                    setTimeout(execute, 10, lockedInstances, result);
-                }
-                else {
-                    // Update state and clear progress.
-                    store.dispatch(setGeneration(finalGeneration));
-                    store.dispatch(setInstanceData(result));
-                    store.dispatch(setProgress(null));
-                }
-            }
-            execute(instances.filter(x => x !== false), state.data.slice())
+            store.dispatch(setGeneration(finalGeneration));
     }
 }
 
