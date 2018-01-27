@@ -9,9 +9,9 @@
  * @note Needs to use "function" instead of arrow notation in order to access this context.
  */
 export const elitism = (bitSize) => (n) => function (population) {
-    const parents = this.parents;
-    const values = parents.values();
-    const keepers = parents.fitnesses()
+    const lastPopulation = this.population;
+    const values = lastPopulation.values();
+    const keepers = lastPopulation.fitnesses()
         // Create index/value tuples from fitnesses.
         .map((v,i) => ({index: i, value: v}))
         // Sort tuples by value.
