@@ -243,6 +243,10 @@ export class bin32Population {
         }
         return this._bestSolution;
     }
+
+    chromosomes() {
+        return this._values;
+    }
 };
 
 const populations = {

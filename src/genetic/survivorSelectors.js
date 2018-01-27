@@ -10,18 +10,19 @@
  */
 export const elitism = (bitSize) => (n) => function (population) {
     const lastPopulation = this.population;
-    const values = lastPopulation.values();
+    const values = lastPopulation.chromosomes();
+
     const keepers = lastPopulation.fitnesses()
         // Create index/value tuples from fitnesses.
         .map((v,i) => ({index: i, value: v}))
-        // Sort tuples by value.
-        .sort((a,b) => a.value - b.value)
+        // Sort tuples descending by value.
+        .sort((a,b) => b.value - a.value)
         // Slice n most fit parents.
         .slice(0, n)
         // Get values of sliced parents.
         .map((v) => values[v.index]);
     // Merge keepers with next generation sans n first chromosomes.
-    const survivors = [...keepers, ...population.values().slice(n)];
+    const survivors = [...keepers, ...population.chromosomes().slice(n)];
     // Create new population from produced values.
     return population.fromArray(survivors);
 };
