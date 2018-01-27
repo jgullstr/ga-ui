@@ -12,11 +12,17 @@ export const elitism = (bitSize) => (n) => function (population) {
     const parents = this.parents;
     const values = parents.values();
     const keepers = parents.fitnesses()
+        // Create index/value tuples from fitnesses.
         .map((v,i) => ({index: i, value: v}))
+        // Sort tuples by value.
         .sort((a,b) => a.value - b.value)
+        // Slice n most fit parents.
         .slice(0, n)
+        // Get values of sliced parents.
         .map((v) => values[v.index]);
+    // Merge keepers with next generation sans n first chromosomes.
     const survivors = [...keepers, ...population.values().slice(n)];
+    // Create new population from produced values.
     return population.fromArray(survivors);
 };
 
