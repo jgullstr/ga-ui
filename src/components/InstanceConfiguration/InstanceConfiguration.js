@@ -83,7 +83,7 @@ const InstanceConfiguration = (props) => {
     const onChange = (event, value) => props.setInstanceTab({
       value: value
     }, [props.index, 'activeTab']);
-    console.log('renmder')
+
     return (
       <div className="container" style={{marginBottom: 1}}>
         <div style={style.leftCell}>
