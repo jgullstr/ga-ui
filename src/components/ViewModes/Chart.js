@@ -20,7 +20,7 @@ const Chart = (props) => {
     }, []);
 
     const getPoint = (i) => (data) => {
-        return data[i].bestSolution.fitness;
+        return data[i].bestSolution.value;
     }
 
     const randomColor = () => '#'+Math.floor(Math.random()*16777215).toString(16);
