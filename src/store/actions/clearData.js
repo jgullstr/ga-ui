@@ -4,7 +4,7 @@ const reducer = (state = {}, action) => {
     return {
         ...state,
         generation: 0,
-        data: []
+        data: state.data.map((v) => [])
     }
 };
 

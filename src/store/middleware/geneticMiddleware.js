@@ -25,6 +25,10 @@ const compose = (funcs) => {
     return funcs.reduce((a, b) => (...args) => b(a(...args)));
 }
 
+/**
+ * Create composed function from instance configuration object.
+ * @param {*} bitSize 
+ */
 const composeStage = (bitSize) => (stage, config) => {
     return compose(config[stage].map(partial => genetic[stage][partial.fn].fn(bitSize)(...partial.params)));
 }
@@ -113,7 +117,15 @@ const geneticMiddleware = store => next => action => {
             Instance = instanceClassFactory(state.globalConfiguration);
             instances = state.instanceConfigurations.map(config => {
                 return config.locked ? new Instance(config) : false;
-            })
+            });
+            // Recalculate instances.
+            const activeKeys = instances.reduce((result, instance, index) => {
+                return instance ? [...result, index] : result;
+            }, []);
+
+            // Update current generation.
+            execute(activeKeys, state.currentGeneration);
+            
             store.dispatch(setGlobalLock(true));
             break;
         // Clear all data.
