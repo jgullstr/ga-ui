@@ -42,7 +42,6 @@ const instanceClassFactory = (globalConfiguration) => {
     const initializer = genetic.initializers[globalConfiguration.initializer].fn;
     const populationSize = globalConfiguration.populationSize;
     const composer = composeStage(globalConfiguration.bitSize);
-    const Population = bin32Population;
 
     const Instance = class {
         constructor(instanceConfiguration) {
@@ -98,7 +97,7 @@ const geneticMiddleware = store => next => action => {
         // Evolve all locked instances.
         instanceKeys.map((index) => {
             instances[index].evolve();
-            result[index].push(instances[index].getData());
+            return result[index].push(instances[index].getData());
         });
 
         if (++current < generations) {
@@ -157,7 +156,7 @@ const geneticMiddleware = store => next => action => {
                 store.dispatch(setInstanceData([instances[index].getData()], [index]));
 
                 // Bring instance up to current generation.
-                const generations = parseInt(state.currentGeneration);
+                const generations = parseInt(state.currentGeneration, 10);
                 if (generations > 0) {
                     execute([index], generations);
                 }
@@ -173,7 +172,7 @@ const geneticMiddleware = store => next => action => {
         // Evolve all instances.
         case "GENETIC_EVOLVE":
             // How many generations to evolve.
-            const generations = parseInt(state.ui.generations);
+            const generations = parseInt(state.ui.generations, 10);
 
             const keys = instances.reduce((result, instance, index) => {
                 return instance ? [...result, index] : result;
@@ -181,8 +180,11 @@ const geneticMiddleware = store => next => action => {
 
             // Update current generation.
             execute(keys, generations);
-            const finalGeneration = parseInt(state.currentGeneration) + generations;
+            const finalGeneration = parseInt(state.currentGeneration, 10) + generations;
             store.dispatch(setGeneration(finalGeneration));
+            break;
+        default:
+            throw new TypeError(`Unknown action type: ${action.type}.`);
     }
 }
 
