@@ -9,6 +9,7 @@
     "react-redux": "^5.0.6",
     "react-scripts": "1.0.17",
     "react-sortable-hoc": "^0.6.8",
+    "recharts": "^1.0.0-beta.9",
     "redux": "^3.7.2",
     "typeface-roboto": "0.0.43"
   },
