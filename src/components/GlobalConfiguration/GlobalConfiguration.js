@@ -7,6 +7,7 @@ import geneticGlobalLock from '../../store/geneticActions/geneticGlobalLock';
 import geneticGlobalReset from '../../store/geneticActions/geneticGlobalReset';
 
 import setGlobalConfig from '../../store/actions/setGlobalConfig';
+import setFunction from '../../store/actions/setFunction';
 
 import RadioOptionField from '../FormComponents/Fields/RadioOptionField';
 import SelectOptionField from '../FormComponents/Fields/SelectOptionField';
@@ -19,7 +20,7 @@ import toggleDrawer from '../../store/actions/toggleDrawer';
 
 //import FunctionConfiguration from './FunctionConfiguration';
 
-const GlobalConfiguration = ({values, geneticGlobalReset, geneticGlobalLock, setGlobalConfig, toggleDrawer}) => {
+const GlobalConfiguration = ({values, geneticGlobalReset, geneticGlobalLock, setGlobalConfig, setFunction, toggleDrawer}) => {
   const buttonArgs = values.locked ?
     {
       label: "Reset",
@@ -60,10 +61,10 @@ const GlobalConfiguration = ({values, geneticGlobalReset, geneticGlobalLock, set
 
         <label>Function:</label><br /><br />
         <SelectOptionField
-          name="fn"
+          name="globalConfiguration"
           options={geneticOptions.functions}
           value={values.fn}
-          onChange={setGlobalConfig}
+          onChange={setFunction}
           disabled={values.locked}
         />
         <br /><span className="hint">Function to optimize.</span><br /><br />
@@ -104,6 +105,7 @@ const mapStateToProps = (state) => ({
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     setGlobalConfig: setGlobalConfig,
+    setFunction: setFunction,
     geneticGlobalLock: geneticGlobalLock,
     geneticGlobalReset: geneticGlobalReset,
     toggleDrawer: toggleDrawer
