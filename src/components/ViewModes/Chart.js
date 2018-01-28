@@ -31,13 +31,18 @@ const Chart = (props) => {
         );
     }
 
+    const tooltipFormatter = (value, name, entry, i) => {
+        const result = entry.payload[i];
+        //  (average fitness: ${result.averageFitness})
+        return `#${i}: f(${result.bestSolution.args.join(',')}) = ${value}`;
+    };
 
     return (
-        <ResponsiveContainer width={1000} height={1000}>
+        <ResponsiveContainer width={1000} height={600}>
             <LineChart data={chartData}>
                 <XAxis/>
                 <YAxis/>
-                <Tooltip/>
+                <Tooltip formatter={tooltipFormatter}/>
                 <CartesianGrid strokeDasharray="3 3"/>
                 {Object.keys(chartData[0]).map((value, index) =>
                     <Line dot={false} type="monotone" key={index} dataKey={getPoint(index)} stroke={randomColor()}/>
