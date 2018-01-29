@@ -5,11 +5,12 @@ import genetic, {geneticOptions} from './genetic';
  */
 const globalConfiguration = {
     bitSize: 32,
-    populationSize: 30,
-    fn: Object.keys(geneticOptions.functions)[0],
-    argRanges: genetic.functions[Object.keys(geneticOptions.functions)[0]].defaultRanges,
-    evaluator: Object.keys(geneticOptions.evaluators)[0],
-    initializer: Object.keys(geneticOptions.initializers)[0],
+    populationSize: 1000,
+    fn: 'ACKLEY',
+    argRanges: genetic.functions['ACKLEY'].defaultRanges,
+    evaluator: 'MIN',
+    initializer: 'RANDOM_GLOBAL',
+    rounds: 1,
     locked: false,
   };
   
