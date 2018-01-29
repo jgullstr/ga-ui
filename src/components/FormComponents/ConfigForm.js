@@ -21,7 +21,7 @@ const ConfigForm = (props) => {
     const DeleteButton = <IconButton
         tooltip="Delete"
         iconClassName="material-icons"
-        onClick={() => console.log('delete')}
+        onClick={(e) => props.deleteFunction(e)}
     >delete_forever</IconButton>;
 
     const functionForm = fn.params.map((field, key) => <ConfigField key={key} {...field} value={params[key]} path={[...props.path, 'params', key]}/>);

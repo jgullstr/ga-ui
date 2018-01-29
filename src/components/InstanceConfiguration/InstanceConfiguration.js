@@ -8,6 +8,7 @@ import MenuDialog from '../FormComponents/MenuDialog';
 import addInstanceFunction from '../../store/actions/addInstanceFunction';
 import setInstanceTab from '../../store/actions/setInstanceTab';
 import orderInstanceFunctions from '../../store/actions/orderInstanceFunctions';
+import deleteInstanceFunction from '../../store/actions/deleteInstanceFunction';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -43,7 +44,7 @@ const style = {
 };
 
 const StepForm = (props) => {
-  const items = props.values.map((value, key) => <ConfigForm key={key} path={['instanceConfigurations', props.index, props.type, key]} type={props.type} value={value}/>);
+  const items = props.values.map((value, key) => <ConfigForm key={key} deleteFunction={() => props.deleteInstanceFunction(key,[props.index, props.type])} path={['instanceConfigurations', props.index, props.type, key]} type={props.type} value={value}/>);
   return (
     <div style={{height: '100%', display: 'block'}}>
       <SortableList items={items} onSortEnd={(indices) => props.onSortEnd(indices, [props.index, props.type])}/>
@@ -112,6 +113,7 @@ const InstanceConfiguration = (props) => {
             values={config[selectedTab]}
             onSortEnd={props.orderInstanceFunctions}
             action={props.updateInstanceFunction}
+            deleteInstanceFunction={props.deleteInstanceFunction}
           />
         </div>
         <div style={style.clear}></div>
@@ -128,6 +130,7 @@ function mapDispatchToProps(dispatch) {
       addInstanceFunction: addInstanceFunction,
       setInstanceTab: setInstanceTab,
       orderInstanceFunctions: orderInstanceFunctions,
+      deleteInstanceFunction: deleteInstanceFunction,
   }, dispatch);
 }
 
