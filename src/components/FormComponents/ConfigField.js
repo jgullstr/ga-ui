@@ -15,7 +15,8 @@ const ConfigField = (props) => {
         floatingLabelText: props.name,
         floatingLabelStyle: fieldColor,
         errorText: props.description,
-        errorStyle: fieldColor
+        errorStyle: fieldColor,
+        disabled: props.disabled,
     }
     switch (props.type) {
         case 'int':

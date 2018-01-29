@@ -53,7 +53,7 @@ const InstancesConfiguration = (props) => {
                         />
                         <Divider/>
                         <CardText style={{padding: 0}} expandable={true}>
-                            <InstanceConfiguration index={index}/>
+                            <InstanceConfiguration index={index} disabled={config.locked}/>
                             <Divider/>
                             <CardActions>
                                 <IconButton
