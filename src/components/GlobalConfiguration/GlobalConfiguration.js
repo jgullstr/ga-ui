@@ -54,6 +54,7 @@ const GlobalConfiguration = ({values, geneticGlobalReset, geneticGlobalLock, set
           label="Population size"
           value={values.populationSize}
           onChange={setGlobalConfig}
+          disabled={values.locked}
         />
         <span className="hint">Amount of chromosomes in population.</span><br /><br />
         <br />
@@ -91,6 +92,16 @@ const GlobalConfiguration = ({values, geneticGlobalReset, geneticGlobalLock, set
           disabled={values.locked}
         />
         <br /><span className="hint">How to initialize algorithm instances.</span>
+        <br />
+        <br />
+        <NumberField
+          name="rounds"
+          label="Rounds"
+          value={values.rounds}
+          onChange={setGlobalConfig}
+          disabled={values.locked}
+        />
+        <span className="hint">Rounds to execute algorithms. Result is calculated as an average over n rounds.</span><br /><br />
         <br />
         <br />
         <RaisedButton {...buttonArgs} fullWidth={true}/>

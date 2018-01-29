@@ -5,7 +5,7 @@ const fieldColor = {
     color: '#000'
 }
 
-const NumberField = ({name, label, onChange, value}) => {
+const NumberField = ({name, label, onChange, value, ...props}) => {
     return (
         <div>
             <TextField
@@ -17,6 +17,7 @@ const NumberField = ({name, label, onChange, value}) => {
                 floatingLabelText={label}
                 value={value}
                 fullWidth={true}
+                {...props}
             />
         </div>
     );
