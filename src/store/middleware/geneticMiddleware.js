@@ -119,10 +119,14 @@ const geneticMiddleware = store => next => action => {
             });
             // Recalculate instances.
             const activeKeys = instances.reduce((result, instance, index) => {
-                return instance ? [...result, index] : result;
+                if (instance) {
+                   store.dispatch(setInstanceData([instance.getData()], [index]));
+                   return [...result, index];
+                }
+                return result;
             }, []);
 
-            // Update current generation.
+            // Bring up to current generation.
             execute(activeKeys, state.currentGeneration);
             
             store.dispatch(setGlobalLock(true));
