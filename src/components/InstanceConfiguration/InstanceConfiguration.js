@@ -47,7 +47,7 @@ const StepForm = (props) => {
   const items = props.values.map((value, key) => <ConfigForm key={key} deleteFunction={() => props.deleteInstanceFunction(key,[props.index, props.type])} path={['instanceConfigurations', props.index, props.type, key]} type={props.type} value={value} disabled={props.disabled}/>);
   return (
     <div style={{height: '100%', display: 'block'}}>
-      <SortableList disabled={props.disabled} items={items} onSortEnd={(indices) => props.onSortEnd(indices, [props.index, props.type])}/>
+      <SortableList lockAxis="y" disabled={props.disabled} items={items} onSortEnd={(indices) => props.onSortEnd(indices, [props.index, props.type])}/>
       <MenuDialog
         disabled={props.disabled}
         options={props.options}
