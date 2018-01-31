@@ -52,20 +52,14 @@ export const crossoverSinglePoint = (bitSize) => p => crossoverNPoints(bitSize)(
  * @returns {Function}
  */
 export const crossoverUniform = (bitSize) => () => function (v1, v2, mask = 1 << bitSize) {
-  let r1 = 0
-  let r2 = 0
   while (mask) {
     if (randomBoolean(0.5)) {
-      r1 |= (v1 & mask)
-      r2 |= (v2 & mask)
-    }
-    else {
-      r1 |= (v2 & mask)
-      r2 |= (v1 & mask)
+      v1 = (v1 & ~mask) | (v2 & mask)
+      v2 = (v2 & ~mask) | (v1 & mask)
     }
     mask >>>= 1;
   }
-  return [r1, r2];
+  return [v1, v2];
 }
 
 /**
