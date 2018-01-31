@@ -49,7 +49,7 @@ const Chart = (props) => {
 
     let chartData = roundsData[0];
 
-    if (chartData.length === 0) {
+    if (!chartData || chartData.length === 0) {
         return (
             <p>No data available</p>
         );
@@ -82,8 +82,6 @@ const Chart = (props) => {
             }
         , {});
     });
-
-    console.log(chartData);
 
     const getPoint = (i) => (data) => {
         return data[i].bestSolution.value;
