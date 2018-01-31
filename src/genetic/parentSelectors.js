@@ -77,8 +77,6 @@ export const stochasticUniversalSampling = bitSize => () => population => {
         newValues.push(values[index - 1]);
         target += distance;
     }
-    console.log(newValues.length);
-    console.log(population.size);
     return population.fromArray(newValues);
 };
 
