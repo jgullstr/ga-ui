@@ -26,11 +26,19 @@ const compose = (funcs) => {
 }
 
 /**
+ * Load functions from stage in instance configuration.
+ */
+const loadFunctions = (bitSize) => (stage, config) => {
+    const functionArray = config[stage].map(partial => genetic[stage][partial.fn].fn(bitSize)(...partial.params));
+    return functionArray.length ? functionArray : [x => x];
+}
+
+/**
  * Create composed function from instance configuration object.
  * @param {*} bitSize 
  */
-const composeStage = (bitSize) => (stage, config) => {
-    return compose(config[stage].map(partial => genetic[stage][partial.fn].fn(bitSize)(...partial.params)));
+const composeStage = (loader) => (stage, config) => {
+    return compose(loader(stage, config));
 }
 
 const instanceClassFactory = (globalConfiguration) => {
@@ -41,15 +49,16 @@ const instanceClassFactory = (globalConfiguration) => {
     const evaluator = genetic.evaluators[globalConfiguration.evaluator].fn;
     const initializer = genetic.initializers[globalConfiguration.initializer].fn;
     const populationSize = globalConfiguration.populationSize;
-    const composer = composeStage(globalConfiguration.bitSize);
+    const loader = loadFunctions(globalConfiguration.bitSize);
+    const composer = composeStage(loader);
 
     const Instance = class {
         constructor(instanceConfiguration) {
             this.population = new bin32Population(populationSize, fn, codec, evaluator, initializer);
             this.generation = 0;
 
-            const recombiners = instanceConfiguration['recombiners'].map(partial => genetic['recombiners'][partial.fn].fn(globalConfiguration.bitSize)(...partial.params));
-            console.log(recombiners);
+            const recombiners = loader('recombiners', instanceConfiguration);
+            
             const mutate = composer('mutators', instanceConfiguration);
             const selectSurvivors = composer('survivorSelectors', instanceConfiguration);
             const selectParents = composer('parentSelectors', instanceConfiguration);

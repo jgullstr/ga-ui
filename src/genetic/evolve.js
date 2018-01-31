@@ -20,19 +20,21 @@ export const evolve = (selectParents) => (recombiners) => (mutate) => (selectSur
   
     // Recombine by calling recombine with chunks of parents corresponding to
     // amount of arguments in the recombine function.
-    const childValues = recombiners.reduce((result, recombine) => matingPool.chunk(recombine.length).reduce((values, chunk) => {
-      if (chunk.length !== recombine.length) {
-        // If last chunk does not contain enough values,
-        // skip recombination and add parents to preserve population size.
-        return [...values, ...chunk];  
-      }
-      const parents = chunk.slice();
-      for (let i = 0; i < recombine.length; i++) {
-        context.parents.push(parents);
-      }
-      const recombined = recombine.apply(context, chunk);
-      return chunk.length === 1 ? [...values, recombined] : [...values, ...recombined];
-    }, []), []);
+    const childValues = recombiners.reduce((result, recombine) =>
+      matingPool.chunk(recombine.length).reduce((values, chunk) => {
+        if (chunk.length !== recombine.length) {
+          // If last chunk does not contain enough values,
+          // skip recombination and add parents to preserve population size.
+          return [...values, ...chunk];  
+        }
+        const parents = chunk.slice();
+        for (let i = 0; i < recombine.length; i++) {
+          context.parents.push(parents);
+        }
+        const recombined = recombine.apply(context, chunk);
+        return chunk.length === 1 ? [...values, recombined] : [...values, ...recombined];
+      }, []), []
+    );
     const children = matingPool.fromArray(childValues);
     context.children = children;
 
