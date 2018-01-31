@@ -11,6 +11,7 @@ import { bindActionCreators } from 'redux';
 
 import setGenerationsInput from '../../store/actions/setGenerationsInput';
 import geneticEvolve from '../../store/geneticActions/geneticEvolve';
+import geneticReset from '../../store/geneticActions/geneticReset';
 
 const styles = {
     toolbar: {
@@ -24,7 +25,7 @@ const styles = {
     }
 }
 
-const AppFooter = ({currentGeneration, setGenerationsInput, generations, geneticEvolve}) => {
+const AppFooter = ({currentGeneration, setGenerationsInput, generations, geneticEvolve, geneticReset}) => {
   return (
     <Toolbar style={styles.toolbar}>
       <ToolbarGroup firstChild={true}>
@@ -36,11 +37,7 @@ const AppFooter = ({currentGeneration, setGenerationsInput, generations, genetic
               >swap_vert</IconButton>
           }
         >
-          <MenuItem primaryText="Recalculate" />
-          <MenuItem primaryText="Reset" />
-          <MenuItem primaryText="Import configuration" />
-          <MenuItem primaryText="Export configuration" />
-          <MenuItem primaryText="Export data" />
+          <MenuItem primaryText="Reset generations" onClick={() => geneticReset()} />
         </IconMenu>
           <ToolbarTitle text={`Generation ${currentGeneration}`} />
       </ToolbarGroup>
@@ -61,6 +58,7 @@ const mapStateToProps = (state) => ({
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
       geneticEvolve: geneticEvolve,
+      geneticReset: geneticReset,
       setGenerationsInput: setGenerationsInput,
     }, dispatch);
 }

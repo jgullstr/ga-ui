@@ -117,6 +117,9 @@ const geneticMiddleware = store => next => action => {
 
     switch (action.type) {
         // Lock global configuration, initialize solver.
+        case "GENETIC_RESET":
+            // Set generation to zero and passthrough to GENETIC_GLOBAL_LOCK.
+            store.dispatch(setGeneration(0));
         case "GENETIC_GLOBAL_LOCK":
             Instance = instanceClassFactory(state.globalConfiguration);
             const data = Array(rounds).fill([]);
@@ -129,8 +132,9 @@ const geneticMiddleware = store => next => action => {
             }));
 
             // Bring up to current generation.
-            if (state.currentGeneration > 0) {
-                execute(activeKeys(), state.currentGeneration);
+            const currentGeneration = store.getState().currentGeneration;
+            if (currentGeneration > 0) {
+                execute(activeKeys(), currentGeneration);
             }
             store.dispatch(setGlobalLock(true));
             break;
