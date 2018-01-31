@@ -89,7 +89,7 @@ const geneticMiddleware = store => next => action => {
         }
         if (!result) {
             // Todo: Slice 3 dimensions.
-            result = store.getState().data.map(roundData => roundData.map(instanceData => instanceData.map(x => x)));
+            result = store.getState().data.map(roundData => roundData.map(instanceData => instanceData ? instanceData.map(x => x) : false));
         }
         if (counter++ === step) {
             counter = 0;
@@ -127,7 +127,7 @@ const geneticMiddleware = store => next => action => {
             roundInstances = data.map((value, round) => state.instanceConfigurations.map((config, index) => {
                 const instance = new Instance(config);
                 // Set initial data.
-                store.dispatch(setInstanceData([instance.getData()], [round, index]));
+                store.dispatch(setInstanceData(config.locked ? [instance.getData()] : false, [round, index]));
                 return config.locked ? instance : false;
             }));
 

@@ -15,7 +15,7 @@ export class bin32Population {
      */
     constructor(size, fn, codec, fitnessFn = minValue, init = randomizeTypedArray) {
         /** @type {Integer} */
-        this.size = size;
+        this.size = parseInt(size, 10);
 
         /** @type {Function} */
         this.fn = fn;
@@ -131,7 +131,6 @@ export class bin32Population {
      */
     fromArray(array) {
         if (array.length !== this.size) {
-            console.log(array);
             throw new RangeError(`Array needs to contain ${this.size} values.`);
         }
         if (array instanceof Int32Array) {
