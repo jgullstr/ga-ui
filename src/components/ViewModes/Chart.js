@@ -91,7 +91,8 @@ const Chart = (props) => {
 
 
     const tooltipFormatter = (value, name, entry, i) => {
-        const result = entry.payload[i];
+        const keys = Object.keys(entry.payload);
+        const result = entry.payload[keys[i]];
         //  (average fitness: ${result.averageFitness})
         return `#${i}: f(${result.bestSolution.args.join(',')}) = ${value}`;
     };
@@ -103,7 +104,7 @@ const Chart = (props) => {
                 <YAxis/>
                 <Tooltip formatter={tooltipFormatter}/>
                 <CartesianGrid strokeDasharray="3 3"/>
-                {Object.keys(chartData[0]).map((value, index) =>
+                {Object.keys(chartData[0]).map((index) =>
                     <Line dot={false} type="monotone" key={index} dataKey={getPoint(index)} stroke={randomColor()}/>
                 )}            
             </LineChart>
