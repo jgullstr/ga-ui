@@ -3,7 +3,7 @@
  * Earlier stages of evolution can be accessed from function contexts.
  * @returns {Population} evolved generation.
  */
-export const evolve = (selectParents) => (recombine) => (mutate) => (selectSurvivors) => (population) => {
+export const evolve = (selectParents) => (recombiners) => (mutate) => (selectSurvivors) => (population) => {
     // Time execution.
     const initTime = performance.now();
 
@@ -20,7 +20,7 @@ export const evolve = (selectParents) => (recombine) => (mutate) => (selectSurvi
   
     // Recombine by calling recombine with chunks of parents corresponding to
     // amount of arguments in the recombine function.
-    const childValues = matingPool.chunk(recombine.length).reduce((values, chunk) => {
+    const childValues = recombiners.reduce((result, recombine) => matingPool.chunk(recombine.length).reduce((values, chunk) => {
       if (chunk.length !== recombine.length) {
         // If last chunk does not contain enough values,
         // skip recombination and add parents to preserve population size.
@@ -32,7 +32,7 @@ export const evolve = (selectParents) => (recombine) => (mutate) => (selectSurvi
       }
       const recombined = recombine.apply(context, chunk);
       return chunk.length === 1 ? [...values, recombined] : [...values, ...recombined];
-    }, []);
+    }, []), []);
     const children = matingPool.fromArray(childValues);
     context.children = children;
 

@@ -48,12 +48,13 @@ const instanceClassFactory = (globalConfiguration) => {
             this.population = new bin32Population(populationSize, fn, codec, evaluator, initializer);
             this.generation = 0;
 
-            const recombine = composer('recombiners', instanceConfiguration);
+            const recombiners = instanceConfiguration['recombiners'].map(partial => genetic['recombiners'][partial.fn].fn(globalConfiguration.bitSize)(...partial.params));
+            console.log(recombiners);
             const mutate = composer('mutators', instanceConfiguration);
             const selectSurvivors = composer('survivorSelectors', instanceConfiguration);
             const selectParents = composer('parentSelectors', instanceConfiguration);
 
-            const evolver = evolve(selectParents)(recombine)(mutate)(selectSurvivors);
+            const evolver = evolve(selectParents)(recombiners)(mutate)(selectSurvivors);
             this.evolve = () => { this.population = evolver(this.population) };
         }
 
