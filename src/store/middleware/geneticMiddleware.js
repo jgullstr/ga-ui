@@ -121,7 +121,7 @@ const geneticMiddleware = store => next => action => {
             Instance = instanceClassFactory(state.globalConfiguration);
             const data = Array(rounds).fill([]);
             store.dispatch(setInstanceData(data));
-            roundInstances = data.map((value, round) => state.instanceConfigurations.map(config => {
+            roundInstances = data.map((value, round) => state.instanceConfigurations.map((config, index) => {
                 const instance = new Instance(config);
                 // Set initial data.
                 store.dispatch(setInstanceData([instance.getData()], [round, index]));
@@ -129,7 +129,9 @@ const geneticMiddleware = store => next => action => {
             }));
 
             // Bring up to current generation.
-            execute(activeKeys(), state.currentGeneration);           
+            if (state.currentGeneration > 0) {
+                execute(activeKeys(), state.currentGeneration);
+            }
             store.dispatch(setGlobalLock(true));
             break;
         // Clear all data.
