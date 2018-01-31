@@ -4,20 +4,86 @@ import { connect } from 'react-redux';
 
 const Chart = (props) => {
     // Make data conform to recharts dresscode.
-    const chartData = props.data.reduce((result, instanceData, instanceIndex) => {
-        if (instanceData !== false) {
-            instanceData.map((value, generation) => {
-                while (result.length <= generation) {
-                    result.push({})
-                }
-                result[generation][instanceIndex] = {
-                    ...value,
-                    generation: generation,
-                }
-            });
+    const roundsData = props.data.map(roundData => {
+        return roundData.reduce((result, instanceData, instanceIndex) => {
+            if (instanceData !== false) {
+                instanceData.map((value, generation) => {
+                    while (result.length <= generation) {
+                        result.push({})
+                    }
+                    result[generation][instanceIndex] = {
+                        ...value,
+                        generation: generation,
+                    }
+                });
+            }
+            return result;
+        }, []);
+    });
+
+    const addPoints = (a,b) => {
+        return {
+            averageFitness: a.averageFitness + b.averageFitness,
+            bestSolution: {
+                args: a.bestSolution.args.map(() => 'n/a'),
+                binary: 'n/a',
+                fitness: a.bestSolution.fitness + b.bestSolution.fitness,
+                value: a.bestSolution.value + b.bestSolution.value,
+            },
+            executionTime: a.executionTime + b.executionTime
         }
-        return result;
-    }, []);
+    };
+
+    const divPoint = (divisor) => (point) => {
+        return {
+            averageFitness: point.averageFitness / divisor,
+            bestSolution: {
+                args: point.bestSolution.args,
+                binary: point.bestSolution.binary,
+                fitness: point.bestSolution.fitness / divisor,
+                value: point.bestSolution.value / divisor
+            },
+            executionTime: point.executionTime
+        }
+    }
+
+    let chartData = roundsData[0];
+
+    if (chartData.length === 0) {
+        return (
+            <p>No data available</p>
+        );
+    }
+
+    // Sum rounds.
+    for (let i = 1; i < roundsData.length; i++) {
+        const roundData = roundsData[i];
+        chartData = chartData.map((rows, instance) => {
+            return Object.keys(rows).reduce(
+                (result, generation) => {
+                    return { 
+                      ...result,
+                      [generation]: addPoints(rows[generation], roundData[instance][generation])
+                    }
+                }
+            , {});
+        });
+    }
+
+    // Divide result.
+    const divide = divPoint(roundsData.length);
+    chartData = chartData.map((rows, instance) => {
+        return Object.keys(rows).reduce(
+            (result, generation) => {
+                return { 
+                  ...result,
+                  [generation]: divide(rows[generation])
+                }
+            }
+        , {});
+    });
+
+    console.log(chartData);
 
     const getPoint = (i) => (data) => {
         return data[i].bestSolution.value;
@@ -25,11 +91,6 @@ const Chart = (props) => {
 
     const randomColor = () => '#'+Math.floor(Math.random()*16777215).toString(16);
 
-    if (chartData.length === 0) {
-        return (
-            <p>No data available</p>
-        );
-    }
 
     const tooltipFormatter = (value, name, entry, i) => {
         const result = entry.payload[i];
