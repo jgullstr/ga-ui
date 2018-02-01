@@ -243,6 +243,26 @@ export class bin32Population {
         return this._bestSolution;
     }
 
+    /**
+     * Return worst solution in population.
+     * @returns {Object}
+     */
+    worstSolution() {
+        if (this._worstSolution === undefined) {
+            const fitnesses = this.fitnesses();
+            const worstFitness = Math.min(...fitnesses);
+            const i = fitnesses.indexOf(worstFitness);
+            /** @type {Object} */
+            this._worstSolution = {
+                args: this.args()[i],
+                binary: this._values[i],
+                value: this.values()[i],
+                fitness: this.fitnesses()[i]
+            }
+        }
+        return this._worstSolution;
+    }
+
     chromosomes() {
         return this._values;
     }

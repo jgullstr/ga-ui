@@ -70,6 +70,7 @@ const instanceClassFactory = (globalConfiguration) => {
         getData() {
             return {
                 bestSolution: this.population.bestSolution(),
+                worstSolution: this.population.worstSolution(),
                 averageFitness: this.population.averageFitness(),
                 executionTime: this.population.executionTime,
             }
