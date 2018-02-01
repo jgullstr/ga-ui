@@ -1,7 +1,9 @@
 import React from 'react';
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { connect } from 'react-redux';
-
+import { bindActionCreators } from 'redux';
+import setChartKey from '../../store/actions/setChartKey';
+import RadioOptionField from '../FormComponents/Fields/RadioOptionField';
 
 function* getColor() {
     let i = 0;
@@ -28,7 +30,6 @@ function* getColor() {
         '#80808'
     ];
     while (true) {
-        console.log(colors[i % colors.length])
         yield colors[i++ % colors.length];
     }
 } 
@@ -128,14 +129,18 @@ const Chart = (props) => {
     });
 
     const getPoint = (i) => (data) => {
-        return data[i][props.chartKey].value;
+        const value = data[i][props.chartKey]
+        return value.value ? value.value : value;
     }
 
     const tooltipFormatter = (value, name, entry, i) => {
         const keys = Object.keys(entry.payload);
         const result = entry.payload[keys[i]];
         //  (average fitness: ${result.averageFitness})
-        return `#${i}: f(${result.bestSolution.args.join(',')}) = ${value}`;
+        if (result[props.chartKey].args) {
+            return `#${i}: f(${result[props.chartKey].args.join(',')}) = ${value}`;
+        }
+        return `#${i}: ${value}`;
     };
 
     const colorizer = getColor();
@@ -152,9 +157,25 @@ const Chart = (props) => {
                     )}            
                 </LineChart>
             </ResponsiveContainer>
+            <RadioOptionField
+                name="chartKey"
+                options={{
+                    'bestSolution': 'Best value',
+                    'worstSolution': 'Worst value',
+                    'averageFitness': 'Average fitness',
+                }}
+                value={props.chartKey}
+                onChange={props.setChartKey}
+            />
         </div>
     );
 };
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+        setChartKey: setChartKey
+    }, dispatch);
+}
 
 const mapStateToProps = (state) => ({
     instanceConfigurations: state.instanceConfigurations,
@@ -163,4 +184,4 @@ const mapStateToProps = (state) => ({
     chartKey: state.ui.chartKey
 });
 
-export default connect(mapStateToProps)(Chart);
+export default connect(mapStateToProps, mapDispatchToProps)(Chart);
