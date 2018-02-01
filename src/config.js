@@ -21,6 +21,7 @@ const globalConfiguration = {
       viewMode: 'InstancesConfiguration',
       generations: 10,
       progress: null,
+      chartKey: 'bestSolution',
     },
     globalConfiguration: globalConfiguration,
     instanceConfigurations: [],
