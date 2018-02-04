@@ -54,7 +54,8 @@ export const exponentialDepression = bitSize => (min_p, max_p, exponent) => func
     const max_value = fullMasks[bitSize - 1] >>> 0;
 
     const distance = (max_parent - min_parent) / max_value;
-    const p = max_p*(1 - Math.pow(distance, exponent)) + min_p;
+    console.log(distance);
+    const p = (max_p - min_p)*(1 - Math.pow(distance, exponent)) + min_p;
     while (mask) {
         if (randomBoolean(p)) {
             value ^= mask;
