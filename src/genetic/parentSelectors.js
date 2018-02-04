@@ -1,4 +1,4 @@
-import {randomReal} from './random';
+import {randomReal, randomInteger, randomBoolean} from './random';
 
 const loadBalancedFitnesses = (population) => {
     let totalFitness = population.totalFitness();
@@ -19,6 +19,34 @@ const loadBalancedFitnesses = (population) => {
         fitnessValues: fitnessValues,
     }
 }
+
+/**
+ * Tournament selection.
+ *  
+ * @param  {Population} population
+ * @return {Population} Fitness-biased population for recombination.
+ */
+export const tournament = bitSize => (tournamentSize, p) => population => {
+    const values = population._values;
+    const fitnessValues = population.fitnesses();
+
+    const matingPool = Array.from({length: population.size}, (v) => {
+        const candidates = Array
+            .from({length: tournamentSize}, () => randomInteger(0, population.size))
+            .sort((a,b) => fitnessValues[a] - fitnessValues[b]);
+
+        let champion = candidates.pop();
+        while (candidates) {
+            if (randomBoolean(p)) {
+                break;
+            }
+            champion = candidates.pop();
+        }
+        return values[champion];
+    });
+
+    return population.fromArray(matingPool);
+};
 
 /**
  * Roulette wheel selection.
@@ -110,6 +138,27 @@ const parentSelectors = {
         description: "Creates a new population with members randomly selected from input based on their fitness.",
         fn: rouletteWheel,
         params: []
+    },
+    TOURNAMENT: {
+        name: "Tournament selection",
+        description: "Run (population size) tournaments among n chromosomes.",
+        fn: tournament,
+        params: [
+            {
+                name: "Tournament size",
+                description: "Amount of chromosomes in each tournament.",
+                type: 'uint',
+                default: 2
+            },
+            {
+                name: "Winning probability",
+                description: "Probability for the fitter chromosome to win its tournament round.",
+                type: 'float',
+                range: [0,1],
+                default: 0.9
+            }
+
+        ]
     },
     SUS: {
         name: "Stochastic universal sampling",
