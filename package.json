@@ -1,6 +1,13 @@
 {
-  "name": "gaui",
+  "name": "ga-ui",
+  "description": "UI for evaluating generational evolutionary algorithms",
+  "author": "Josef Gullström <jgullstr@abo.fi>",
   "version": "0.1.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jgullstr/ga-ui.git"
+  },
   "private": true,
   "dependencies": {
     "material-ui": "^0.19.4",
