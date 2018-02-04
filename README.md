@@ -43,8 +43,9 @@ When stages are configured, the instance needs to be locked to be included in th
 The parent selection stage operates on the current population and returns a mating pool, a new population with same size containing members selected from the input population. Currently included parent selectors are:
 
 - Shuffle: Shuffles the chromosomes in the population. Should be used in conjunction with another parent selector, as its produced mating pool contains identical values to input.
-- [Stochastic universal sampling](https://en.wikipedia.org/wiki/Stochastic_universal_sampling)
 - [Roulette wheel selection](https://en.wikipedia.org/wiki/Fitness_proportionate_selection)
+- [Stochastic universal sampling](https://en.wikipedia.org/wiki/Stochastic_universal_sampling)
+- [Tournament selection](https://en.wikipedia.org/wiki/Tournament_selection)
 
 #### Recombination
 A recombination function produces a new same-size population by sequentially combining n parents from the mating pool into n offspring. Available recombination functions are:
