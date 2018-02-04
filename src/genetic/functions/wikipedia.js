@@ -40,6 +40,16 @@ registerFunction('HIMMELBLAU', {
     description: 'min: 0'
 })
 
+/*
+// http://support.sas.com/documentation/cdl/en/ormpug/66851/HTML/default/viewer.htm#ormpug_nlpsolver_gettingstarted03.htm
+const sas = (x,y) => Math.exp(Math.sin(50*x)) + Math.sin(60*Math.exp(y)) + Math.sin(70*Math.sin(x)) + Math.sin(Math.sin(80*y)) - Math.sin(10*(x+y)) + (x^2+y^2)/4;
+registerFunction('SAS', {
+    name: "SAS",
+    fn: sas,
+    defaultRanges: [[-1,1],[-1,1]],
+    description: 'min: -3.306868647'
+})
+*/
 
 /*
 const crossInTray = (x,y) => {
