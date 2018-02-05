@@ -1,4 +1,4 @@
-import {randomReal, randomInteger, randomBoolean} from './random';
+import {randomReal, randomInteger, randomBoolean, randomizeTypedArray} from './random';
 
 const loadBalancedFitnesses = (population) => {
     let totalFitness = population.totalFitness();
@@ -35,14 +35,13 @@ export const tournament = bitSize => (tournamentSize, p) => population => {
             .from({length: tournamentSize}, () => randomInteger(0, population.size))
             .sort((a,b) => fitnessValues[a] - fitnessValues[b]);
 
-        let champion = candidates.pop();
-        while (candidates) {
+        let i = candidates.length;
+        while (--i) {
             if (randomBoolean(p)) {
                 break;
             }
-            champion = candidates.pop();
         }
-        return values[champion];
+        return values[candidates[i]];
     });
 
     return population.fromArray(matingPool);
@@ -89,6 +88,20 @@ export const shuffle = bitSize => () => population => {
 };
 
 /**
+ * Random population.
+ * 
+ * For reference. Discards all previous progress.
+ * 
+ * @param  {Population} population
+ * @return {Population} Same population, with shuffled values.
+ */
+export const randomPopulation = bitSize => () => population => {
+    const result = new Int32Array(population.size);
+    randomizeTypedArray(result);
+    return population.fromArray(result);
+};
+
+/**
  * Stochastic universal sampling.
  * 
  * Create a new, same-size population with members selected at an
@@ -131,6 +144,12 @@ const parentSelectors = {
         name: "Shuffle",
         description: "Shuffles the chromosomes in the population. Does no selection and should therefore be used in combination with another selector.",
         fn: shuffle,
+        params: []
+    },
+    RANDOM: {
+        name: "Random",
+        description: "Returns a fresh, random population. Used as reference.",
+        fn: randomPopulation,
         params: []
     },
     ROULETTE_WHEEL: {
