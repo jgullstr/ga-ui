@@ -1,5 +1,4 @@
-
-
+import { randomPopulation } from './parentSelectors';
 
 /**
  * Elitism.
@@ -41,6 +40,12 @@ const survivorSelectors = {
                 default: 5
             },
         ]
+    },
+    RANDOM: {
+        name: "Random",
+        description: "Create a fresh array to start from in next iteration.",
+        fn: randomPopulation,
+        params: []
     },
 };
 
