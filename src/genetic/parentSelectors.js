@@ -5,6 +5,16 @@ const loadBalancedFitnesses = (population) => {
     let fitnessValues = population.fitnesses().slice();
     
     const minFitness = Math.min(...fitnessValues);
+    const maxFitness = Math.max(...fitnessValues);
+
+    // If all fitnesses are identical, give all a fitness value of one to
+    // prevent issues with zero values in selectors.
+    if (minFitness === maxFitness) {
+        return {
+            totalFitness: population.size,
+            fitnessValues: Array(population.size).fill(1)
+        }
+    }
 
     // Ensure all fitness values are positive.
     // @note if minFitness is less than zero, the worst fitness value
@@ -117,12 +127,6 @@ export const stochasticUniversalSampling = bitSize => () => population => {
 
     const newValues = [];
     const distance = totalFitness / population.size;
-
-    // If population has converged to a single negative fitness, total fitness will be 0.
-    // In that case, the resulting population will be identical to input.
-    if (distance === 0) {
-        return population.fromArray(population._values);
-    }
 
     let target = distance;
     let current = randomReal(0, distance);
