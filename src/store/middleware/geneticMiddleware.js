@@ -22,7 +22,11 @@ const compose = (funcs) => {
     if (funcs.length === 1) {
         return funcs[0];
     }
-    return funcs.reduce((a, b) => (...args) => b(a(...args)));
+    return funcs.reduce((a, b) =>
+        function (...args) {
+            return b.call(this, a.apply(this, args));
+        }
+    );
 }
 
 /**
@@ -35,11 +39,8 @@ const loadFunctions = (bitSize) => (stage, config) => {
 
 /**
  * Create composed function from instance configuration object.
- * @param {*} bitSize 
  */
-const composeStage = (loader) => (stage, config) => {
-    return compose(loader(stage, config));
-}
+const composeStage = (loader) => (stage, config) => compose(loader(stage, config));
 
 const instanceClassFactory = (globalConfiguration) => {
 
