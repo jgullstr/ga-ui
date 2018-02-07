@@ -112,7 +112,6 @@ registerFunction('HIMMELBLAU', {
 ```
 
 ### Parent selectors
-
 Parent selectors are defined in src/genetic/parentSelectors.js. A function retrieves a bin32Population object (found in src/genetic/populations.js) and returns a new bin32Population, the mating pool, whose members have been selected by the logic in the function. Refer to the existing parent selectors for code examples.
 
 ```es6
@@ -160,7 +159,6 @@ Then add the new function along with parameter specification for configuration t
 Following operators are defined in a similar manner, with additional context.
 
 ### Recombiners
-
 Recombiners are defined in src/genetic/recombiners.js
 
 A recombiner takes an arbitrary amount of parents from the mating pool and returns an array of same size containing recombined values.
@@ -173,7 +171,6 @@ const functionName = bitSize => (...arguments) => function(value1, value2, ..., 
 }
 ```
 ### Mutators
-
 Mutators are defined in src/genetic/mutators.js
 
 A mutator takes a single chromosome (32-bit integer) and returns its mutated value. Refer to the source for code examples. Similarily to other stages, metadata needs to be specified in the files default export.
@@ -184,11 +181,13 @@ const functionName = bitSize => (...arguments) => function(value) {
   // this.population: Unaltered population (indata to parent selector)
   // this.matingPool: Mating pool returned from parent selection stage
   // this.parents: Array containing the parents selected during recombination.
-  // this.childIndex: The index of this chromosome's parents in this.parents
+  // this.childIndex: The first index of this chromosome's parents in this.parents
+  //   How to determine parents when composed recombiners have been used are left as an excercise
+  //   to the reader, hanc marginis exiguitas non caperet.
 }
 ```
-### Survivor selectors
 
+### Survivor selectors
 Survivor selectors are defined in src/genetic/survivorSelectors.js
 
 A survivor selectors takes the mutated population and returns a same size population to be considered when calculating following generation. Refer to the source for code examples. Similarily to other stages, metadata needs to be specified in the files default export.
