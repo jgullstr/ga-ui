@@ -22,6 +22,11 @@ const globalConfiguration = {
       generations: 10,
       progress: null,
       chartKey: 'bestSolution',
+      chartKeys: {
+        bestSolution: true,
+        worstSolution: false,
+        averageFitness: false,
+      }
     },
     globalConfiguration: globalConfiguration,
     instanceConfigurations: [],

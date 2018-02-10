@@ -3,7 +3,9 @@ import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tool
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import setChartKey from '../../store/actions/setChartKey';
+import setChartKeys from '../../store/actions/setChartKeys';
 import RadioOptionField from '../FormComponents/Fields/RadioOptionField';
+import CheckboxesField from '../FormComponents/Fields/CheckboxesField';
 
 function* getColor() {
     let i = 0;
@@ -137,13 +139,26 @@ const Chart = (props) => {
         const keys = Object.keys(entry.payload);
         const result = entry.payload[keys[i]];
         //  (average fitness: ${result.averageFitness})
-        if (result[props.chartKey].args) {
+        if (result && result[props.chartKey] && result[props.chartKey].args) {
             return `#${i}: f(${result[props.chartKey].args.join(',')}) = ${value}`;
         }
         return `#${i}: ${value}`;
     };
 
+    const getKeyPoint = (i, key) => (data) => {
+        const value = data[i][key];
+        return value.value ? value.value : value;
+    }
+
+    const activeKeys = Object.keys(props.chartKeys).filter(key => props.chartKeys[key]);
     const colorizer = getColor();
+
+    const Lines = ({index}) => activeKeys.map(valueKey => {
+        console.log(valueKey);
+        return <Line dot={false} type="monotone" key={valueKey} dataKey={getKeyPoint(index, valueKey)} stroke={colorizer.next().value}/>
+    })
+
+    console.log(chartData);
     return (
         <div className="container">
             <ResponsiveContainer width="100%" height={600}>
@@ -153,10 +168,22 @@ const Chart = (props) => {
                     <Tooltip formatter={tooltipFormatter}/>
                     <CartesianGrid strokeDasharray="3 3"/>
                     {Object.keys(chartData[0]).map((index) =>
-                        <Line dot={false} type="monotone" key={index} dataKey={getPoint(index)} stroke={colorizer.next().value}/>
+                        activeKeys.map(valueKey => 
+                            <Line dot={false} type="monotone" key={valueKey} dataKey={getKeyPoint(index, valueKey)} stroke={colorizer.next().value}/>
+                        )
                     )}            
                 </LineChart>
             </ResponsiveContainer>
+            <CheckboxesField
+                name="chartKey"
+                options={{
+                    'bestSolution': 'Best value',
+                    'worstSolution': 'Worst value',
+                    'averageFitness': 'Average fitness',
+                }}
+                value={props.chartKeys}
+                onChange={props.setChartKeys}
+            />
             <RadioOptionField
                 name="chartKey"
                 options={{
@@ -173,7 +200,8 @@ const Chart = (props) => {
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-        setChartKey: setChartKey
+        setChartKey: setChartKey,
+        setChartKeys: setChartKeys
     }, dispatch);
 }
 
@@ -181,7 +209,8 @@ const mapStateToProps = (state) => ({
     instanceConfigurations: state.instanceConfigurations,
     data: state.data,
     generations: state.currentGeneration,
-    chartKey: state.ui.chartKey
+    chartKey: state.ui.chartKey,
+    chartKeys: state.ui.chartKeys
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chart);

@@ -7,7 +7,6 @@ import setGlobalConfig from '../../store/actions/setGlobalConfig';
 import RangeField from '../FormComponents/Fields/RangeField';
 
 const FunctionConfiguration = ({functions}) => {
-  
   const functionArgsForm = Array.apply(null, {length: fn.length}).map((value, i) => {
     return (
       <div>
