@@ -224,6 +224,19 @@ export class bin32Population {
     }
 
     /**
+     * Get average fitness of entire population.
+     * @returns {array} [min, max] bin values in population.
+     */
+    valueRange() {
+        if (this._valueRange === undefined) {
+            /** @type {Number} */
+            const uIntValues = new Uint32Array(this._values);
+            this._valueRange = [Math.min(...uIntValues), Math.max(...uIntValues)];
+        }
+        return this._valueRange;
+    }
+
+    /**
      * Return best solution in population.
      * @returns {Object}
      */
